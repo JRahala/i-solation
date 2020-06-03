@@ -6,7 +6,3 @@
 # ignore testing file
 
 test.py
-
-# ignore template.html
-
-template.html
