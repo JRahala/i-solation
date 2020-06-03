@@ -7,13 +7,9 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 @app.route('/')
-def register():
-	return render_template('register.html')
+def index():
 
-
-@app.route('/login')
-def login():
-	return render_template('login.html')
+	return render_template('index.html')
 
 
 socketio.run(app, host = '0.0.0.0', port = 4000, debug = True)
