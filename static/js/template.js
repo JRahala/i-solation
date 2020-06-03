@@ -34,11 +34,75 @@ function loadGlobal(key){
 }
 
 
+function loadUser(){
+
+	// remove the login and sign up options from navbar
+	var user_buttons = document.getElementsByClassName('user-button');
+
+	// invert current user-button displays
+	for (var element of user_buttons){
+
+		if (element.style.display == 'none'){
+			element.style.display = '';
+		}
+
+		else{
+			element.style.display = 'none';
+		}
+	}
+
+	// for all class where [classname, key] replace objects with User.key
+	var search_attributes = [['user-username', 'username']]
+
+	for (var search of search_attributes){
+
+		var search_elements = document.getElementsByClassName(search[0]);
+
+		for (var i = 0; i < search_elements.length; i++){
+			search_elements[i].innerHTML = User[search[1]];
+		}
+
+	}
+
+
+}
+
+
 window.onload = function(){
 
-	// has the user already logged in?
+	// has the user logged in
 
-	var User = loadGlobal();
-	console.log(`User is logged as ${User}`);
+	window.User = loadGlobal('User');
+	if (User != null){
+
+		// load the user button in the navbar
+
+		loadUser();
+
+	}
+
+}
+
+
+function signUp(){
+
+	// save + load user json
+
+	saveGlobal('User', {'username': 'Jasamrit16'});
+	User = loadGlobal('User');
+
+	loadUser();
+
+}
+
+
+function Login(){
+
+	// save + load user json
+
+	saveGlobal('User', {'username': 'Jasamrit16'});
+	User = loadGlobal('User');
+
+	loadUser();
 
 }

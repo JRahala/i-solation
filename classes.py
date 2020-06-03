@@ -32,7 +32,11 @@ class Website:
 
 class Post:
 
+	Instances = []
+
 	def __init__(self, heading, content, author):
+
+		Post.Instances.append(self)
 
 		self.heading = heading
 		self.content = content
@@ -40,7 +44,7 @@ class Post:
 
 		self.votes = 0
 		self.date = time.localtime()
-		self.comment = set()
+		self.comments = []
 
 
 	def edit(self, new_heading, new_content):
