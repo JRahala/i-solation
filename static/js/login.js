@@ -1,1 +1,0 @@
-alert('Login js script activated')

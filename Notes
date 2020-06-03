@@ -4,8 +4,6 @@ Stuff I need to do
 Update the template file so that child templates extend the base html, properly
 i.e. add in the title bar, background
 
-I guess login shouldn't really inherit from the master template because it is irrelevant
-
 
 - Authentication people can just go on the site without an account
 Make sure people have to make an account before posting / commenting etc.
