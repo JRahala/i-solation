@@ -33,6 +33,7 @@ function sendHTTPRequest(method, url, data){
 		xhr.open(method, url);
 
 		xhr.responseType = 'json';
+		xhr.timeout = 3000;
 
 		if (data){
 			xhr.setRequestHeader('Content-Type', 'application/json');
@@ -54,6 +55,10 @@ function sendHTTPRequest(method, url, data){
 
 		xhr.onerror = function (){
 			reject('Something went wrong!');
+		}
+
+		xhr.ontimeout = function(){
+			reject('Server took too long to respond - Please check your internet connection');
 		}
 
 		// send request
@@ -137,19 +142,49 @@ window.onload = function(){
 
 function signUp(){
 
-	// save + load user json
+	// get input data
 
-	/*
+	const username = document.getElementById('sign-up-username').value;
+	const password = document.getElementById('sign-up-password').value;
+	const valid_pswd = document.getElementById('sign-up-valid-password').value;
 
-	saveGlobal('User', {'username': 'Jasamrit16'});
-	User = loadGlobal('User');
+	var msg = document.getElementById('sign-up-error-message');
+	
+	// check passwords are the same
 
-	loadUser();
+	if (valid_pswd != password){
 
-	*/
+		msg.innerText = 'Passwords do not match!';
+		return false
+	
+	}  
 
-	sendHTTPRequest('GET', 'https://reqres.in/api/users').then(responseData => {
-		console.log(responseData);
+	sendHTTPRequest('POST', '/sign_up', {'username': username, 'password': password})
+
+	.then(function(responseData){
+
+		// response msg
+
+		msg.innerText = responseData.response;
+
+		if (responseData.worked == true){
+
+			// update + load user
+
+			User.username = username;
+			User.password = password;
+
+			loadUser();
+
+		}
+
+	})
+
+	.catch(function(error){
+
+		// display the error message
+		msg.innerText = error;
+
 	});
 
 }
@@ -157,11 +192,86 @@ function signUp(){
 
 function Login(){
 
-	// save + load user json
+	// get input data
 
-	saveGlobal('User', {'username': 'Jasamrit16'});
-	User = loadGlobal('User');
+	const username = document.getElementById('login-username').value;
+	const password = document.getElementById('login-password').value;
 
-	loadUser();
+	var msg = document.getElementById('login-error-message');
+
+	console.log(username, password);
+
+
+	sendHTTPRequest('POST', '/login', {'username': username, 'password': password})
+
+	.then(function(responseData){
+
+		// response msg
+
+		msg.innerText = responseData.response;
+
+		if (responseData.worked == true){
+
+			// update + load user
+
+			User.username = username;
+			User.password = password;
+
+			console.log(User);
+			console.log(username, password);
+
+			loadUser();
+
+		}
+
+	})
+
+	.catch(function(error){
+
+		// display the error message
+		msg.innerText = error;
+
+	});
+
+}
+
+
+
+
+function signOut(){
+
+	// clear the User variable
+	// reload the webpage
+
+	console.log('signing out');
+
+}
+
+
+function dismissAlert(element){
+
+	// get parent element
+	const parent = element.parentNode;
+
+	// user notification ID to remove notification (from parent element) -> ajax request
+	const notification_id = parent.id.split('-')[1];
+	
+	// send reference to current user and notification id
+	sendHTTPRequest('POST', '/delete_notification', {})
+	
+	.then(function deleteDebug(response){
+
+		// delete element
+		parent.remove();
+	
+	})
+
+	.catch(function err(error){
+		
+		console.log(error);
+	
+	});
+
+	
 
 }

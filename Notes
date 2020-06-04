@@ -1,9 +1,28 @@
 Stuff I need to do
 -------------------
 
-Update the template file so that child templates extend the base html, properly
-i.e. add in the title bar, background
+- Add notification sound / mobile connection
+- Currently deleting notifcations from databse using ID
+
+- Create notificatino function [py + js]
+- Use random Ids using uuid afer testing
 
 
-- Authentication people can just go on the site without an account
-Make sure people have to make an account before posting / commenting etc.
+
+Do the notifications work on other links
+
+
+I believe this works ?
+----
+i.e.
+
+Current link: / [stuff] /
+Calls: / [stuff] / add_user
+
+
+or 
+
+# What I want
+
+Current link: / [stuff] /
+Calls: / add_user

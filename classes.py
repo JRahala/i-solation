@@ -1,5 +1,6 @@
 
 import time
+import uuid
 
 
 class Website:
@@ -72,6 +73,7 @@ class User:
 
 		self.posts = {}
 		self.reputation = 0
+		self.notifications = {}
 
 
 	def create_post(self, heading, content):
@@ -106,3 +108,21 @@ class User:
 		if not new_content: new_content = post.content
 		
 		return post.edit(new_heading, new_content)
+
+
+	def add_notification(self, notification_header, notifiction_body):
+
+		notification_id = '01'# uuid.uuid1().hex
+		self.notifications[notification_id] = [notification_header, notifiction_body]
+
+		return notification_id
+
+
+	def delete_notification(self, notification_id):
+
+		if notification_id in self.notifications:
+
+			del self.notifications[notification_id]
+			return True
+
+		return False

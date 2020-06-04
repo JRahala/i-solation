@@ -76,9 +76,10 @@
 
 		  	<input class = 'mt-2 p-1' id = 'sign-up-username' type = 'text' placeholder = "username">
 		    <input class = 'mt-2 p-1' id = 'sign-up-password' type = 'password' placeholder = "password">
+		    <input class = 'mt-2 p-1' id = 'sign-up-valid-password' type = 'password' placeholder = "repeat password">
 
 		    <br><button class = 'btn btn-success mt-4' onclick = 'signUp()'> Sign Up! </button>
-		    <br><p id = 'sign-up-error-message' class = 'mt-2'> </p>
+		    <br><p id = 'sign-up-error-message' class = 'text-danger mt-2'> </p>
 
 			</div>
 		  
@@ -102,7 +103,7 @@
 		    <input class = 'mt-2 p-1' id = 'login-password' type = 'password' placeholder = "password">
 
 		    <br><button class = 'btn btn-success mt-4' onclick = 'Login()'> Log In </button>
-		    <br><p id = 'login-error-message' class = 'mt-2'> </p>
+		    <br><p id = 'login-error-message' class = 'text-danger mt-2'> </p>
 
 			</div>
 		  
@@ -122,12 +123,51 @@
 		  	<div class = 'p-3'>
 		  		<center><h2> <span class = 'user-username'> username </span> </h2></center>
 
-			    <button class=" btn btn-light mt-2" onclick = 'loadUser()' style = 'width: 100%'>Profile Page</button>
-			    <button class=" btn btn-light mt-2" onclick = 'loadUser()' style = 'width: 100%'>New Post</button>
+			    <button class=" btn btn-success mt-2" onclick = 'loadUser()' style = 'width: 100%'>Profile Page</button>
+			    <button class=" btn btn-light mt-3" onclick = 'loadUser()' style = 'width: 100%'>New Post</button>
 			    <button class=" btn btn-light mt-1" onclick = 'loadUser()' style = 'width: 100%'>Timetable</button>
 			    <button class=" btn btn-light mt-1" onclick = 'loadUser()' style = 'width: 100%'>Settings</button>
 			    <button class=" btn btn-danger mt-1" onclick = 'loadUser()' style = 'width: 100%'>Sign Out</button>
 			</div>
+		  
+		  </div>
+		</li>
+
+
+		<li class = 'dropdown user-button' style = 'display: none'>
+			
+		  <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+		    <i class="fas fa-bell"></i>
+		  
+		  </button>
+
+		  <div class="dropdown-menu dropdown-menu-right mt-4 rounded-lg" aria-labelledby="dropdownMenuButton">
+
+			  <ul class="list-group list-group-flush" style = 'overflow-y: scroll; max-height: 40vh; min-width: 18rem'>
+
+			  	<div class = 'p-3' id = 'notification-list'>
+
+		    	<div class="card-body list-group-item" id = 'notification-01'>
+		    		<button type="button" class="close" onclick = "dismissAlert(this)">&times;</button>
+					<h5 class="card-title">Notification 1</h5>
+				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+				</div>
+
+		    	<div class="card-body list-group-item" id = 'notification-1238282'>
+		    		<button type="button" class="close" onclick = "dismissAlert(this)">&times;</button>
+					<h5 class="card-title">Notification 2</h5>
+				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+				</div>
+
+		    	<div class="card-body list-group-item" id = 'notification-1978282'>
+		    		<button type="button" class="close" onclick = "dismissAlert(this)">&times;</button>
+					<h5 class="card-title">Notification 3</h5>
+				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+				</div>
+
+				</div>
+			  </ul>
 		  
 		  </div>
 		</li>
