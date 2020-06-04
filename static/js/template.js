@@ -10,10 +10,61 @@ onload:
 save-global(key, value) -> save variable to local storage
 get-global(key) -> returns global value of key
 
+
+Add in AJAX, promises and timeouts: 
+
+	-> verify posting works
+	-> create .then() functions
+	-> add animation loop
+
 */
 
 
 var User = {};
+
+
+function sendHTTPRequest(method, url, data){
+
+	const promise = new Promise(function(resolve, reject){
+
+		// set request information
+
+		const xhr = new XMLHttpRequest();
+		xhr.open(method, url);
+
+		xhr.responseType = 'json';
+
+		if (data){
+			xhr.setRequestHeader('Content-Type', 'application/json');
+		}
+
+		// handlers, on response
+
+		xhr.onload = function(){
+
+			if (xhr.status >= 400){
+				reject(xhr.response);
+			}
+
+			else{
+				resolve(xhr.response);
+			}
+
+		}
+
+		xhr.onerror = function (){
+			reject('Something went wrong!');
+		}
+
+		// send request
+
+		xhr.send(JSON.stringify(data));
+
+	});
+
+	return promise;
+
+}
 
 
 function saveGlobal(key, value){
@@ -88,10 +139,18 @@ function signUp(){
 
 	// save + load user json
 
+	/*
+
 	saveGlobal('User', {'username': 'Jasamrit16'});
 	User = loadGlobal('User');
 
 	loadUser();
+
+	*/
+
+	sendHTTPRequest('GET', 'https://reqres.in/api/users').then(responseData => {
+		console.log(responseData);
+	});
 
 }
 
