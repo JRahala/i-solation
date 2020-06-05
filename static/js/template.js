@@ -223,8 +223,8 @@ function signUp(){
 			User.username = username;
 			User.password = password;
 
-			// change signOut setting
-			saveGlobal('signOut', false);
+			// change signedOut setting
+			saveGlobal('signedOut', false);
 
 			loadUser();
 
@@ -273,7 +273,7 @@ function Login(){
 			console.log(username, password);
 
 			// change sign out setting
-			saveGlobal('signOut', false);
+			saveGlobal('signedOut', false);
 
 			loadUser();
 
