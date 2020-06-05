@@ -1,5 +1,7 @@
 
 import time
+import uuid
+
 
 
 class Website:
@@ -14,6 +16,8 @@ class Website:
 		if not user.username in self.database:
 
 			self.database[user.username] = [user.password, user]
+			user.add_notification('Welcome', 'Welcome to i-solation, the quarantine webapp. Get started by clicking on your profile > profile page')
+			
 			return user
 
 		return False
@@ -29,10 +33,21 @@ class Website:
 		return False
 
 
+	def get_user_by_username(self, username):
+
+		try:
+			return self.database[username][1]
+
+		except:
+			return False
 
 class Post:
 
+	Instances = []
+
 	def __init__(self, heading, content, author):
+
+		Post.Instances.append(self)
 
 		self.heading = heading
 		self.content = content
@@ -40,7 +55,7 @@ class Post:
 
 		self.votes = 0
 		self.date = time.localtime()
-		self.comment = set()
+		self.comments = []
 
 
 	def edit(self, new_heading, new_content):
@@ -68,6 +83,8 @@ class User:
 
 		self.posts = {}
 		self.reputation = 0
+		self.notifications = {}
+		self.followers = set()
 
 
 	def create_post(self, heading, content):
@@ -76,6 +93,9 @@ class User:
 
 			post = Post(heading, content, self)
 			self.posts[post.heading] = post
+
+			for user in followers:
+				user.add_notification(self.username, f'has just posted {post.heading}')
 
 			return post
 
@@ -102,3 +122,26 @@ class User:
 		if not new_content: new_content = post.content
 		
 		return post.edit(new_heading, new_content)
+
+
+	def add_notification(self, notification_header, notifiction_body, link = '#'):
+
+		notification_id = time.time() * 1000 # [latest -> earliest]
+		self.notifications[notification_id] = [notification_header, notifiction_body, link]
+
+		return notification_id
+
+
+	def delete_notification(self, notification_id):
+
+		if notification_id in self.notifications:
+
+			del self.notifications[notification_id]
+			return True
+
+		return False
+
+
+	def get_notifications(self):
+
+		return self.notifications

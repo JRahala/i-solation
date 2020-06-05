@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title> Page Title </title>
+	
+	<!-- load js + bootstrap libraries -->
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js" crossorigin="anonymous"></script>
+
+
+	<link rel = 'stylesheet' href = {{url_for('static', filename = 'css/' + fileName + '.css' )}} />
+
+</head>
+
+<body>
+
+<!-- add a help screen i.e. explain what the feel like a hero button does -->
+
+<!-- nav bar -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+  <a class="navbar-brand" href="javascript:void(0)"><i class="fas fa-eye"></i> i - solation </a>
+  
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="true"><span class="navbar-toggler-icon"></span></button>
+
+  <div class="navbar-collapse collapse show" id="navb">
+
+  	<!-- navigation links -->
+
+    <ul class="navbar-nav mr-auto">
+
+    	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" class="nav-link" href="javascript:void(0)">Home</button></li>
+    	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" role="button" class="nav-link" href="javascript:void(0)">Posts</button></li>
+    	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" role="button" class="nav-link" href="javascript:void(0)">About</button></li>
+      	<!-- add drop down -->
+
+      	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" role="button" class="nav-link" href="javascript:void(0)">Children's Zone</button></li>
+      	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" role="button" class="nav-link" href="javascript:void(0)">Feel like a hero?</button></li>
+	</ul>
+
+	<!-- navigation actions -->
+
+	<ul class="navbar-nav">
+
+	    <!-- search bar -->
+
+	    <form class="form-inline my-2 my-lg-0 mr-3">
+		    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+		    <button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
+		</form>
+
+		<!-- login / sign up buttons -->
+		<!-- seperate dropdowns for different functionality later -->
+
+	    <li class="dropdown user-button">
+
+		  <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+		    <i class="fas fa-user-plus"></i> Sign Up
+		  
+		  </button>
+
+		  <div class="dropdown-menu dropdown-menu-right mt-4 rounded-lg" aria-labelledby="dropdownMenuButton">
+
+		  	<div class = 'p-3'>
+		  	<h2> Create a new account </h2>
+
+		  	<input class = 'mt-2 p-1' id = 'sign-up-username' type = 'text' placeholder = "username">
+		    <input class = 'mt-2 p-1' id = 'sign-up-password' type = 'password' placeholder = "password">
+		    <input class = 'mt-2 p-1' id = 'sign-up-valid-password' type = 'password' placeholder = "repeat password">
+
+		    <br><button class = 'btn btn-success mt-4' onclick = 'signUp()'> Sign Up! </button>
+		    <br><p id = 'sign-up-error-message' class = 'text-danger mt-2'> </p>
+
+			</div>
+		  
+		  </div>
+		</li>
+
+	    <li class="dropdown user-button">
+
+		  <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+		    <i class="fas fa-sign-in-alt"></i> Log in
+		  
+		  </button>
+
+		  <div class="dropdown-menu dropdown-menu-right mt-4 rounded-lg" aria-labelledby="dropdownMenuButton">
+
+		  	<div class = 'p-3'>
+		  	<h2> Login to your account </h2>
+
+		  	<input class = 'mt-2 p-1' id = 'login-username' type = 'text' placeholder = "username">
+		    <input class = 'mt-2 p-1' id = 'login-password' type = 'password' placeholder = "password">
+
+		    <br><button class = 'btn btn-success mt-4' onclick = 'Login()'> Log In </button>
+		    <br><p id = 'login-error-message' class = 'text-danger mt-2'> </p>
+
+			</div>
+		  
+		  </div>
+		</li>
+
+		<li class = 'dropdown user-button' style = 'display: none'>
+			
+		  <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+		    <i class="fas fa-user"></i> <span class = 'user-username'> username </span>
+		  
+		  </button>
+
+		  <div class="dropdown-menu dropdown-menu-right mt-4 rounded-lg" aria-labelledby="dropdownMenuButton">
+
+		  	<div class = 'p-3'>
+		  		<center><h2> <span class = 'user-username'> username </span> </h2></center>
+
+			    <button class=" btn btn-success mt-2" onclick = 'loadUser()' style = 'width: 100%'>Profile Page</button>
+			    <button class=" btn btn-light mt-3" onclick = 'loadUser()' style = 'width: 100%'>New Post</button>
+			    <button class=" btn btn-light mt-1" onclick = 'loadUser()' style = 'width: 100%'>Timetable</button>
+			    <button class=" btn btn-light mt-1" onclick = 'loadUser()' style = 'width: 100%'>Settings</button>
+			    <button class=" btn btn-danger mt-1" onclick = 'loadUser()' style = 'width: 100%'>Sign Out</button>
+			</div>
+		  
+		  </div>
+		</li>
+
+
+		<li class = 'dropdown user-button' style = 'display: none'>
+			
+		  <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+		    <i class="fas fa-bell"></i>
+		  
+		  </button>
+
+		  <div class="dropdown-menu dropdown-menu-right mt-4 rounded-lg" aria-labelledby="dropdownMenuButton">
+
+			  <ul class="list-group list-group-flush" style = 'overflow-y: scroll; max-height: 40vh; min-width: 30rem'>
+
+			  	<div class = 'p-3' id = 'notification-list'>
+
+		    	<div class="card-body list-group-item" id = 'notification-01'>
+		    		<button type="button" class="close notification-close" onclick = "dismissAlert(this)">&times;</button>
+					<h5 class="card-title">Notification 1</h5>
+				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+				    <p class = 'card-text'> 1423 </p>
+				</div>
+
+		    	<div class="card-body list-group-item" id = 'notification-1238282'>
+		    		<button type="button" class="close notification-close" onclick = "dismissAlert(this)">&times;</button>
+					<h5 class="card-title">Notification 2</h5>
+				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+					<p class = 'card-text'> 1423 </p>
+				</div>
+
+		    	<div class="card-body list-group-item" id = 'notification-1978282'>
+		    		<button type="button" class="close notification-close" onclick = "dismissAlert(this)">&times;</button>
+					<h5 class="card-title">Notification 3</h5>
+				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+					<p class = 'card-text'> 1423 </p>
+				</div>
+
+				</div>
+			  </ul>
+		  
+		  </div>
+		</li>
+
+	    <!-- add a profile part if signed in -->
+	    <!-- accessability mode as a floating icon, removable -->
+
+    </ul>
+
+
+  </div>
+</nav>
+
+<!-- conatiner keeps contents aligned and responsive -->
+
+<div class = 'container'>
+
+	<button onclick = 'send_msg()'>Test</button>
+
+	{% block content %}
+		<h1> Your title goes here </h1>
+	{% endblock %}
+
+
+</div>
+
+</body>
+
+
+<script src = {{url_for('static', filename = 'js/template.js')}}></script>
+<script src = {{url_for('static', filename = 'js/' + fileName + '.js')}}></script>
+
+
+</html>
