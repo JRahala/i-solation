@@ -16,6 +16,9 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js" crossorigin="anonymous"></script>
+
+
 	<link rel = 'stylesheet' href = {{url_for('static', filename = 'css/' + fileName + '.css' )}} />
 
 </head>
@@ -144,26 +147,29 @@
 
 		  <div class="dropdown-menu dropdown-menu-right mt-4 rounded-lg" aria-labelledby="dropdownMenuButton">
 
-			  <ul class="list-group list-group-flush" style = 'overflow-y: scroll; max-height: 40vh; min-width: 18rem'>
+			  <ul class="list-group list-group-flush" style = 'overflow-y: scroll; max-height: 40vh; min-width: 30rem'>
 
 			  	<div class = 'p-3' id = 'notification-list'>
 
 		    	<div class="card-body list-group-item" id = 'notification-01'>
-		    		<button type="button" class="close" onclick = "dismissAlert(this)">&times;</button>
+		    		<button type="button" class="close notification-close" onclick = "dismissAlert(this)">&times;</button>
 					<h5 class="card-title">Notification 1</h5>
 				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+				    <p class = 'card-text'> 1423 </p>
 				</div>
 
 		    	<div class="card-body list-group-item" id = 'notification-1238282'>
-		    		<button type="button" class="close" onclick = "dismissAlert(this)">&times;</button>
+		    		<button type="button" class="close notification-close" onclick = "dismissAlert(this)">&times;</button>
 					<h5 class="card-title">Notification 2</h5>
 				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+					<p class = 'card-text'> 1423 </p>
 				</div>
 
 		    	<div class="card-body list-group-item" id = 'notification-1978282'>
-		    		<button type="button" class="close" onclick = "dismissAlert(this)">&times;</button>
+		    		<button type="button" class="close notification-close" onclick = "dismissAlert(this)">&times;</button>
 					<h5 class="card-title">Notification 3</h5>
 				    <h6 class="card-subtitle mb-2 text-muted">another description</h6>
+					<p class = 'card-text'> 1423 </p>
 				</div>
 
 				</div>
@@ -184,6 +190,8 @@
 <!-- conatiner keeps contents aligned and responsive -->
 
 <div class = 'container'>
+
+	<button onclick = 'send_msg()'>Test</button>
 
 	{% block content %}
 		<h1> Your title goes here </h1>

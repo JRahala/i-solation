@@ -17,10 +17,19 @@ Add in AJAX, promises and timeouts:
 	-> create .then() functions
 	-> add animation loop
 
+
+Notifications, make them dissappear using id lookups
+
 */
 
+// stop notifications from closing the dropdown -> learn this syntax
 
-var User = {};
+$(".notification-close").click(function(event){
+
+  event.stopPropagation();
+
+
+});
 
 
 function sendHTTPRequest(method, url, data){
@@ -120,21 +129,59 @@ function loadUser(){
 
 	}
 
+	// load notifications
+
+	sendHTTPRequest('POST', '/get_notifications', {'username': User.username})
+
+	.then(function (responseData){
+
+		if (responseData.worked == true){
+
+			for (var notification in responseData.notifications){
+
+				displayNotification(responseData.notifications[notification], notification);
+			
+			}
+
+		}
+
+		else{
+			
+			// display error message
+			console.log('Notifications cannot be displayed right now!')
+
+		}
+
+	})
+
+	.catch(function(err){
+
+		console.log('NOTIFICATION ERROR!');
+		console.log(err);
+
+	})
+
 
 }
 
 
 window.onload = function(){
 
-	// has the user logged in
+	// has the user logged in & not signed out
 
 	window.User = loadGlobal('User');
-	if (User != null){
+	window.signedOut = loadGlobal('signedOut');
+
+	if (User != null & (signedOut == false || signedOut == null)){
 
 		// load the user button in the navbar
 
 		loadUser();
 
+	}
+
+	if (User == null){
+		User = {};
 	}
 
 }
@@ -147,6 +194,8 @@ function signUp(){
 	const username = document.getElementById('sign-up-username').value;
 	const password = document.getElementById('sign-up-password').value;
 	const valid_pswd = document.getElementById('sign-up-valid-password').value;
+
+	console.log(username, password, valid_pswd);
 
 	var msg = document.getElementById('sign-up-error-message');
 	
@@ -173,6 +222,9 @@ function signUp(){
 
 			User.username = username;
 			User.password = password;
+
+			// change signOut setting
+			saveGlobal('signOut', false);
 
 			loadUser();
 
@@ -220,6 +272,9 @@ function Login(){
 			console.log(User);
 			console.log(username, password);
 
+			// change sign out setting
+			saveGlobal('signOut', false);
+
 			loadUser();
 
 		}
@@ -236,17 +291,19 @@ function Login(){
 }
 
 
-
-
 function signOut(){
 
-	// clear the User variable
-	// reload the webpage
+	// clear the User variable (not global)
+	saveGlobal('signedOut', true);
 
-	console.log('signing out');
+	// reload the webpage (with signedOut settings) -> wont loadUser()
+	// this is acting weird - I will revisit it later
+	location = location;
 
 }
 
+
+// update the notifications badge
 
 function dismissAlert(element){
 
@@ -257,9 +314,9 @@ function dismissAlert(element){
 	const notification_id = parent.id.split('-')[1];
 	
 	// send reference to current user and notification id
-	sendHTTPRequest('POST', '/delete_notification', {})
+	sendHTTPRequest('POST', '/delete_notification', {'notification_id': notification_id, 'username': User.username})
 	
-	.then(function deleteDebug(response){
+	.then(function deleteElement(response){
 
 		// delete element
 		parent.remove();
@@ -271,7 +328,75 @@ function dismissAlert(element){
 		console.log(error);
 	
 	});
-
 	
+}
+
+
+function displayNotification(notification, time){
+
+	var notification_list = document.getElementById('notification-list');
+
+	var card_body = document.createElement('div');
+
+	card_body.classList = ('card-body list-group-item');
+	card_body.id = 'notification-' + time;
+
+	var button = document.createElement('button');
+
+	button.classList = 'close notification-close';
+	
+	button.onclick = function(event){
+		dismissAlert(this);
+		event.stopPropagation();
+	};
+
+	button.innerHTML = '&times;';
+
+	var title = document.createElement('h5');
+	title.classList = 'card-title';
+	title.innerHTML = notification[0];
+
+	var subtitle = document.createElement('h6');
+	subtitle.classList = 'card-subtitle mb-2 text-muted';
+	subtitle.innerHTML = notification[1];
+
+	var timeLog = document.createElement('p');
+	timeLog.classList = 'card-text';
+
+	// format time
+	var t = new Date(parseInt(time))
+	var time_string = t.toDateString();
+	timeLog.innerHTML = time_string;
+
+
+	card_body.appendChild(button);
+	card_body.appendChild(title);
+	card_body.appendChild(subtitle);
+	card_body.appendChild(timeLog);
+
+	notification_list.appendChild(card_body);
 
 }
+
+// socket programming
+
+// listen for notifications
+// update the badge
+
+var socket = io.connect('localhost:4000/');
+
+
+function send_msg(){
+
+	data = {'user': 'yeet'};
+    socket.emit('chat', data);
+
+}
+
+socket.on('chat', function(data){
+
+	alert(data['user']);
+
+})
+
+

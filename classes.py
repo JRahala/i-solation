@@ -15,6 +15,8 @@ class Website:
 		if not user.username in self.database:
 
 			self.database[user.username] = [user.password, user]
+			user.add_notification('Welcome', 'Welcome to i-solation, the quarantine webapp. Get started by clicking on your profile > profile page')
+			
 			return user
 
 		return False
@@ -30,6 +32,13 @@ class Website:
 		return False
 
 
+	def get_user_by_username(self, username):
+
+		try:
+			return self.database[username][1]
+
+		except:
+			return False
 
 class Post:
 
@@ -110,10 +119,10 @@ class User:
 		return post.edit(new_heading, new_content)
 
 
-	def add_notification(self, notification_header, notifiction_body):
+	def add_notification(self, notification_header, notifiction_body, link = '#'):
 
-		notification_id = '01'# uuid.uuid1().hex
-		self.notifications[notification_id] = [notification_header, notifiction_body]
+		notification_id = time.time() * 1000 # [latest -> earliest]
+		self.notifications[notification_id] = [notification_header, notifiction_body, link]
 
 		return notification_id
 
@@ -126,3 +135,8 @@ class User:
 			return True
 
 		return False
+
+
+	def get_notifications(self):
+
+		return self.notifications
