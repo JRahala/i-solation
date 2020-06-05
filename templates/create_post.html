@@ -1,0 +1,83 @@
+{% extends 'template.html' %}
+
+{% set fileName = 'create_post' %}
+{% set title = 'Create & Edit posts' %}
+
+<!-- 
+
+	Drop down lost of all current posts they have made
+	Sorted by date
+	Add a search
+	For now just display by date
+	Pagination / Scrolling
+
+	[Data][Heading][Edit][Delete]
+
+	Post editing is an overlay
+
+	[Editor]
+	[Heading]
+	[Img -> null]
+	[Body]
+
+	[Tags]
+
+-->
+
+{% block content %}
+
+<h2 class = 'mt-3'> Create and Edit your posts </h2>
+
+<hr>
+
+<p>Create your post using the blue button, search and sort for a post using the searchbar </p>  
+
+
+<input class="form-control" id="postSearch" type="text" placeholder="Search..">
+
+<div class="dropdown mt-2">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort by...
+  </button>
+
+  <button class = 'btn btn-primary' onclick = 'createPost()'>
+  	<i class="fas fa-plus-square"></i> Create a new post
+  </button>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+    <a class="dropdown-item disabled" href="#">Date (ascending)</a>
+    <a class="dropdown-item disabled" href="#">Date (descending)</a>
+    <a class="dropdown-item disabled" href="#">Likes (ascending)</a>
+    <a class="dropdown-item disabled" href="#">Likes (descending)</a>
+
+  </div>
+</div>
+
+
+<br>
+
+<ul class="list-group" id="postList">
+
+	<li class="list-group-item">
+		
+    	<div class="" id = 'notification-01'>
+    		
+    		<button type="button" class = 'btn btn-danger float-right ml-1 mr-1 postDelete'><i class="fas fa-trash-alt"></i></button>
+    		<button type="button" class = 'btn btn-success float-right ml-1 mr-1 postEdit'><i class="fas fa-edit"></i></button>
+
+			<h5 class="card-title postName">Blog title #1</h5>
+		    <h6 class="card-subtitle mb-2 text-muted postContent">Capped of description with trailing ... </h6>
+		    <p class = 'card-text postDate'> Date </p>
+
+		</div>
+
+	</li>
+
+	<li class="list-group-item"><div class = 'postName'>Second item</div></li>
+	<li class="list-group-item"><div class = 'postName'>Third item</div></li>
+	<li class="list-group-item"><div class = 'postName'>Fourth item</div></li>
+
+</ul> 
+
+{% endblock %}

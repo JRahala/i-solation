@@ -115,13 +115,16 @@ def get_notifications():
 
 	return jsonify(response)
 
+''' socket responses -> see if I can use as normal links?'''
 
-''' socket responses '''
+@app.route('/create_post')
+def create_post():
+	return render_template('create_post.html')
+
 
 @socketio.on('chat')
 def chat(data):
 
     emit('chat', data)
-
 
 socketio.run(app, host = '0.0.0.0', port = 4000, debug = True)
