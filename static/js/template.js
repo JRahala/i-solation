@@ -383,8 +383,9 @@ function displayNotification(notification, time){
 // listen for notifications
 // update the badge
 
-var socket = io.connect('localhost:4000/');
+var socket = io.connect('/');
 
+/*
 
 function send_msg(){
 
@@ -392,11 +393,14 @@ function send_msg(){
     socket.emit('chat', data);
 
 }
+*/
 
-socket.on('chat', function(data){
+socket.on('new_notification', function(data){
 
-	alert(data['user']);
+	displayNotification(data['notification'], data['time']);
 
-})
+});
+
+
 
 

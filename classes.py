@@ -3,6 +3,7 @@ import time
 import uuid
 
 
+
 class Website:
 
 	def __init__(self):
@@ -83,6 +84,7 @@ class User:
 		self.posts = {}
 		self.reputation = 0
 		self.notifications = {}
+		self.followers = set()
 
 
 	def create_post(self, heading, content):
@@ -91,6 +93,9 @@ class User:
 
 			post = Post(heading, content, self)
 			self.posts[post.heading] = post
+
+			for user in followers:
+				user.add_notification(self.username, f'has just posted {post.heading}')
 
 			return post
 
