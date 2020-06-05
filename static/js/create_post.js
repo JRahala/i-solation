@@ -16,7 +16,18 @@ window.addEventListener("load",function(event) {
 
 function getPosts(){
 
-	alert('getting posts');
+	// for some reason this stuff is not wokring??????
+	console.log(User.username);
+
+	sendHTTPRequest('POST', '/get_posts', {'username': 'J'})
+
+	.then(function(posts){
+		console.log(posts);
+	})
+	
+	.catch(function(err){
+		console.log('User not logged in!');
+	});
 
 }
 
@@ -33,7 +44,7 @@ function addPost(post){
 	var postList = document.getElementById('postList');
 
 	var listItem = document.createElement('li');
-	
+
 
 }
 
@@ -53,3 +64,29 @@ $("#postSearch").on("keyup", function() {
 	});
 
 });
+
+
+
+// load relevant user information / post on button click
+
+$('#editModal').on('show.bs.modal', function (event) {
+
+	// button that pressed the modal
+  	var button = $(event.relatedTarget);
+
+  	// name of the original post
+  	parent = button.parent()
+
+  	console.log(button, parent);
+
+  	postName = parent.find('.postName').text();
+  	postContent = parent.find('.postContent').text();
+
+  	var modal = $(this);
+
+  	console.log(postName, postContent);
+
+  	modal.find('#modal-postName').val(postName);
+  	modal.find('#modal-postContent').val(postContent);
+
+})

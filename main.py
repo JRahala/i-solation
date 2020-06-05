@@ -18,6 +18,7 @@ myself = User('J', '123')
 server.register_user(myself)
 
 myself.add_notification('Header', 'Body')
+myself.create_post('Heading', 'Content')
 
 
 @app.route('/')
@@ -114,6 +115,27 @@ def get_notifications():
 		response['notifications'] = user.get_notifications()
 
 	return jsonify(response)
+
+
+
+# create an active and unactive user property so that if I try to access user data from the database without being logged in, the databse will return nothing
+# this requires the password to have been previously typed in
+# when the user logs in / signs up the active = True
+# on window.close -> user.active = False
+
+@app.route('/get_posts', methods = ['POST'])
+def get_posts():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	response['posts'] = [user.posts[post].serialise() for post in user.posts]
+
+	return jsonify(response)
+
 
 ''' socket responses -> see if I can use as normal links?'''
 
