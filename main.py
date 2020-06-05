@@ -132,7 +132,7 @@ def get_posts():
 	user = data['username']
 	user = server.get_user_by_username(user)
 
-	response['posts'] = [user.posts[post].serialise() for post in user.posts]
+	response['posts'] = [user.posts[post].serialise(False) for post in user.posts]
 
 	return jsonify(response)
 
@@ -173,10 +173,10 @@ def create_new_post():
 	user = data['username']
 	user = server.get_user_by_username(user)
 
-	post_header = data['post_name']
-	post_content = data['post_content']
+	heading = data['heading']
+	content = data['content']
 
-	post = user.create_post(post_header, post_content)
+	post = user.create_post(heading, content)
 
 	if not post:
 		response['worked'] = False

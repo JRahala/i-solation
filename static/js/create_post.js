@@ -16,7 +16,6 @@ window.addEventListener("load",function(event) {
 
 function getPosts(){
 
-	// for some reason this stuff is not wokring??????
 	console.log(User.username);
 
 	sendHTTPRequest('POST', '/get_posts', {'username': User.username})
@@ -31,34 +30,41 @@ function getPosts(){
 
 }
 
-/*
 
-function createPost(post_name, post_content){
 
-	// I dont know how this part will work - send the request
-	sendHTTPRequest('POST', '/create_new_post', {'post_name': post_name, 'post_content': post_content})
+function createPost(){
 
-	.then(function (post){
+	var heading = $('#create-modal-postName').val();
+	var content = $('#create-modal-postContent').val();
 
-		if (post_worked == false){
-			// return error
-			var err_msg = document.getElementById();
+
+	sendHTTPRequest('POST', '/create_new_post', {'username': User.username, 'heading': heading, 'content': content})
+
+	.then(function (responseData){
+
+		if (responseData.worked == true){
+
+			console.log(responseData);
+
 		}
 
 		else{
+
+			console.log(responseData);
 
 		}
 
 	})
 
 	.catch(function (err){
-		conosole.log(err);
+
+		console.log(err);
+
 	});
 
 
 }
 
-*/
 
 
 function editPost(){
