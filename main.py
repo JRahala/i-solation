@@ -137,6 +137,56 @@ def get_posts():
 	return jsonify(response)
 
 
+@app.route('/edit_post', methods = ['POST'])
+def edit_post():
+
+	response = {'worked': True, 'error': False}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	original_heading = data['original_heading']
+
+	new_heading = data['new_heading']
+	new_content = data['new_content']
+
+	response['new_heading'] =  data['new_heading']
+	response['new_content'] =  data['new_content']
+
+	if not user.edit_post(heading, new_heading, new_content):
+
+		response['worked'] = False
+		response['error'] = 'You already have a post with the same heading'
+
+	return jsonify(response)
+
+
+
+@app.route('/create_new_post', methods = ['POST'])
+def create_new_post():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	post_header = data['post_name']
+	post_content = data['post_content']
+
+	post = user.create_post(post_header, post_content)
+
+	if not post:
+		response['worked'] = False
+
+	else:
+		response['worked'] = True
+
+	return jsonify(response)
+
+
+
 ''' socket responses -> see if I can use as normal links?'''
 
 @app.route('/create_post')

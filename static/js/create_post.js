@@ -19,7 +19,7 @@ function getPosts(){
 	// for some reason this stuff is not wokring??????
 	console.log(User.username);
 
-	sendHTTPRequest('POST', '/get_posts', {'username': 'J'})
+	sendHTTPRequest('POST', '/get_posts', {'username': User.username})
 
 	.then(function(posts){
 		console.log(posts);
@@ -31,11 +31,34 @@ function getPosts(){
 
 }
 
-function createPost(){
+/*
 
-	alert('This is where the modal will go');
+function createPost(post_name, post_content){
+
+	// I dont know how this part will work - send the request
+	sendHTTPRequest('POST', '/create_new_post', {'post_name': post_name, 'post_content': post_content})
+
+	.then(function (post){
+
+		if (post_worked == false){
+			// return error
+			var err_msg = document.getElementById();
+		}
+
+		else{
+
+		}
+
+	})
+
+	.catch(function (err){
+		conosole.log(err);
+	});
+
 
 }
+
+*/
 
 
 // add post element to the list
@@ -48,6 +71,55 @@ function addPost(post){
 
 }
 
+
+
+// edit a post given the original username
+// post ['new_heading'], ['new_content']
+
+function editPost(){
+
+
+	sendHTTPRequest('POST', '/edit_post', {'username': User.username, 
+		'original_heading': window.currentPostName,
+		'new_heading': window.currentPostPosition.find('.postName').text(),
+		'new_content': window.currentPostPosition.find('.postContent').text()})
+
+	.then(function (responseData){
+		if (responseData.worked == true){
+			// update selected element
+
+			alert('changing the new_heading: ', responseData.new_heading);
+			alert('changing the new_content: ', responseData.new_content);
+
+		  	window.listElement.find('.postName').text(responseData.new_heading);
+		  	window.listElement.find('.postContent').text(responseData.new_content);
+
+		}
+
+		else{
+			// add toast alert
+			var err_msg = document.getElementById('modal-error');
+			err_msg.innerText = responseData.error;
+		}
+	})
+
+	.catch(function (err){
+		console.log(err);
+	});
+
+
+}
+
+
+// record parent element
+
+function recordElement(element){
+
+	// get parent element
+	console.log(element);
+	window.listElement = element.parentElement;
+
+}
 
 // searching script
 
@@ -67,6 +139,7 @@ $("#postSearch").on("keyup", function() {
 
 
 
+
 // load relevant user information / post on button click
 
 $('#editModal').on('show.bs.modal', function (event) {
@@ -81,6 +154,9 @@ $('#editModal').on('show.bs.modal', function (event) {
 
   	postName = parent.find('.postName').text();
   	postContent = parent.find('.postContent').text();
+
+  	window.currentPostName = postName;
+  	window.currentPostPosition = parent;
 
   	var modal = $(this);
 
