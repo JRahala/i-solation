@@ -146,15 +146,16 @@ def edit_post():
 	user = data['username']
 	user = server.get_user_by_username(user)
 
-	original_heading = data['original_heading']
 
+
+	original_heading = data['original_heading']
 	new_heading = data['new_heading']
 	new_content = data['new_content']
 
 	response['new_heading'] =  data['new_heading']
 	response['new_content'] =  data['new_content']
 
-	if not user.edit_post(heading, new_heading, new_content):
+	if not user.edit_post(original_heading, new_heading, new_content):
 
 		response['worked'] = False
 		response['error'] = 'You already have a post with the same heading'

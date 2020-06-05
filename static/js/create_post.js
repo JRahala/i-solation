@@ -61,6 +61,48 @@ function createPost(post_name, post_content){
 */
 
 
+function editPost(){
+
+	const originalHeading = $(window.listElement).find('.postName').text();
+
+	const newHeading = $(window.postNameElement).val();
+	const newContent = $(window.postContentElement).val();
+
+	sendHTTPRequest('POST', '/edit_post', {'username': User.username, 'original_heading': originalHeading, 'new_heading': newHeading, 'new_content': newContent})
+
+	.then(function(responseData){
+
+		if (responseData.worked == true){
+
+			$(window.listElement).find('.postName').text(newHeading);
+			$(window.listElement).find('.postContent').text(newContent);
+
+			var err_msg = document.getElementById('modal-error');
+			err_msg.classList = 'text-success';
+			err_msg.innerText = 'Successfully updated post!';			
+
+		}
+
+		else{
+
+			var err_msg = document.getElementById('modal-error');
+			err_msg.classList = 'text-danger';
+			err_msg.innerText = responseData.error;
+
+		}
+
+	})
+
+	.catch(function (err){
+
+		console.log(err);
+
+	})
+
+
+}
+
+
 // add post element to the list
 function addPost(post){
 
@@ -73,51 +115,14 @@ function addPost(post){
 
 
 
-// edit a post given the original username
-// post ['new_heading'], ['new_content']
-
-function editPost(){
-
-
-	sendHTTPRequest('POST', '/edit_post', {'username': User.username, 
-		'original_heading': window.currentPostName,
-		'new_heading': window.currentPostPosition.find('.postName').text(),
-		'new_content': window.currentPostPosition.find('.postContent').text()})
-
-	.then(function (responseData){
-		if (responseData.worked == true){
-			// update selected element
-
-			alert('changing the new_heading: ', responseData.new_heading);
-			alert('changing the new_content: ', responseData.new_content);
-
-		  	window.listElement.find('.postName').text(responseData.new_heading);
-		  	window.listElement.find('.postContent').text(responseData.new_content);
-
-		}
-
-		else{
-			// add toast alert
-			var err_msg = document.getElementById('modal-error');
-			err_msg.innerText = responseData.error;
-		}
-	})
-
-	.catch(function (err){
-		console.log(err);
-	});
-
-
-}
-
 
 // record parent element
 
-function recordElement(element){
+function recordElement(el){
 
 	// get parent element
-	console.log(element);
-	window.listElement = element.parentElement;
+	window.listElement = el.parentNode;
+	console.log('recorded element: ', window.listElement);
 
 }
 
@@ -138,8 +143,6 @@ $("#postSearch").on("keyup", function() {
 });
 
 
-
-
 // load relevant user information / post on button click
 
 $('#editModal').on('show.bs.modal', function (event) {
@@ -150,19 +153,17 @@ $('#editModal').on('show.bs.modal', function (event) {
   	// name of the original post
   	parent = button.parent()
 
-  	console.log(button, parent);
-
   	postName = parent.find('.postName').text();
   	postContent = parent.find('.postContent').text();
 
-  	window.currentPostName = postName;
-  	window.currentPostPosition = parent;
-
   	var modal = $(this);
 
-  	console.log(postName, postContent);
+  	// get input fields
 
-  	modal.find('#modal-postName').val(postName);
-  	modal.find('#modal-postContent').val(postContent);
+  	window.postNameElement = modal.find('#modal-postName');
+  	window.postContentElement = modal.find('#modal-postContent');
+
+  	window.postNameElement.val(postName);
+  	window.postContentElement.val(postContent);
 
 })
