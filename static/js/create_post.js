@@ -36,6 +36,32 @@ function getPosts(){
 
 
 
+function deletePost(el){
+
+	var Heading = $(el).parent().find('.postName').text();
+
+	sendHTTPRequest('POST', '/delete_post', {'username': User.username, 'heading': Heading})
+
+	.then(function(responseData){
+
+		if (responseData.worked){
+			$(el).parent().remove();
+		}
+		
+		else{
+			console.log('Post cannot be deleted');
+		}
+
+	})
+	
+	.catch(function(err){
+		console.log('User not logged in!');
+	});	
+
+}
+
+
+
 function createPost(){
 
 	var heading = $('#create-modal-postName').val();
@@ -123,8 +149,6 @@ function editPost(){
 }
 
 
-// add post element to the list ---------------- NEED TO EDIT WHEN MAKING THE DELETE BUTTON, since delete button has no onclikc event attached
-// turn date into ISO FORMAT --------------
 
 function addPost(post){
 
@@ -138,10 +162,12 @@ function addPost(post){
 	var t = new Date(parseInt(post.date))
 	var time_string = t.toDateString();
 
-	listItem.innerHTML = `<button type='button' class = 'btn btn-danger float-right ml-1 mr-1 postDelete' data-toggle='modal' data-target='#editModal'>\
+	listItem.innerHTML = `<button type='button' class = 'btn btn-danger float-right ml-1 mr-1 postDelete' onclick = 'deletePost(this)'>\
 	<i class='fas fa-trash-alt'></i></button>\
 	<button type='button' class = 'btn btn-success float-right ml-1 mr-1 postEdit' data-toggle='modal' data-target='#editModal' onclick = 'recordElement(this)'>\
-	<i class='fas fa-edit'></i></button> <h5 class='card-title postName'>${post.heading}</h5>	<h6 class='card-subtitle mb-2 text-muted postContent'>${post.content}</h6>\
+	<i class='fas fa-edit'></i></button>\
+	<button type='button' class = 'btn btn-primary float-right ml-1 mr-1'>${post.votes + ' '}<i class='fas fa-thumbs-up'></i></button>\
+	<h5 class='card-title postName'>${post.heading}</h5>	<h6 class='card-subtitle mb-2 text-muted postContent'>${post.content}</h6>\
 	<p class = 'card-text postDate'> ${time_string} </p>`;
 
 	postList.insertBefore(listItem, postList.childNodes[0]);
@@ -160,6 +186,8 @@ function recordElement(el){
 	console.log('recorded element: ', window.listElement);
 
 }
+
+
 
 // searching script
 
@@ -202,3 +230,22 @@ $('#editModal').on('show.bs.modal', function (event) {
   	window.postContentElement.val(postContent);
 
 })
+
+
+function sortPosts(parent, childSelector, keySelector) {
+
+    var items = parent.children(childSelector).sort(function(a, b) {
+        var vA = $(keySelector, a).text();
+        var vB = $(keySelector, b).text();
+        return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
+    });
+
+    parent.append(items);
+
+}
+
+/* sort on button click */
+$("button.postSort").click(function() {
+   sortPosts($('#postList'), "li", $(this).data("sortKey"));
+   alert($(this).data("sortKey"));
+});

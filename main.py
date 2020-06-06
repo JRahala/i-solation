@@ -19,6 +19,9 @@ server.register_user(myself)
 
 myself.add_notification('Header', 'Body')
 myself.create_post('Heading', 'Content')
+myself.create_post('ABlka', ':KM<A>')
+myself.create_post('jknNohn', 'KLMJ')
+myself.create_post('Pjkwjd', '1kj9ksd')
 
 
 @app.route('/')
@@ -187,6 +190,28 @@ def create_new_post():
 		response['post'] = post.serialise()
 
 	return jsonify(response)
+
+
+
+@app.route('/delete_post', methods = ['POST'])
+def delete_post():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	heading = data['heading']
+
+	if user.delete_post(heading):
+		response['worked'] = True
+
+	else:
+		response['worked'] = False
+
+	return jsonify(response)
+
 
 
 

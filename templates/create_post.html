@@ -48,10 +48,10 @@
 
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-    <a class="dropdown-item disabled" href="#">Date (ascending)</a>
-    <a class="dropdown-item disabled" href="#">Date (descending)</a>
-    <a class="dropdown-item disabled" href="#">Likes (ascending)</a>
-    <a class="dropdown-item disabled" href="#">Likes (descending)</a>
+    <button class="dropdown-item postSort disabled" data-sortKey = '.postVotes'>Date (ascending)</button>
+    <button class="dropdown-item postSort disabled">Date (descending)</button>
+    <button class="dropdown-item postSort disabled" data-sortKey = '.postVotes'>Likes (ascending)</button>
+    <button class="dropdown-item postSort disabled">Likes (descending)</button>
 
   </div>
 </div>
@@ -61,19 +61,22 @@
 
 <ul class="list-group" id="postList">
 
+
+	<!-- EXAMPLE POST ITEM
 	<li class="list-group-item">
 		
-    		<!-- EXAMPLE POST ITEM
+    		
     		<button type="button" class = 'btn btn-danger float-right ml-1 mr-1 postDelete' data-toggle="modal" data-target="#editModal"><i class="fas fa-trash-alt"></i></button>
     		<button type="button" class = 'btn btn-success float-right ml-1 mr-1 postEdit' data-toggle="modal" data-target="#editModal" onclick = 'recordElement(this)'><i class="fas fa-edit"></i></button>
+    		<button type='button' class = 'btn btn-primary float-right ml-1 mr-1'><div class = 'postVotes'>votes</div><i class='fas fa-thumbs-up'></i></button>
 
 			<h5 class="card-title postName">Heading</h5>
 		    <h6 class="card-subtitle mb-2 text-muted postContent">Content</h6>
 		    <p class = 'card-text postDate'> Date </p>
-			-->
-
 
 	</li>
+	-->
+
 
 </ul> 
 
