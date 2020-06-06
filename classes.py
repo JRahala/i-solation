@@ -9,6 +9,29 @@ class Website:
 	def __init__(self):
 
 		self.database = {}
+		self.all_users = set()
+		self.anon_sessions = {}
+
+
+	# def generate_session():
+
+	# 	# generate and returns unique session id -> User object
+
+	# 	session_id = uuid.uuid1()
+	# 	self.anon_sessions[session_id] = User(session_id, session_id)
+
+	# 	return session_id
+
+
+	# def delete_session():
+
+	# 	# on page leaving delete temporary user
+		
+	# 	session_user = self.anon_sessions[session_id]
+	# 	del session_user, self.anon_sessions[session_id]
+
+	# 	return True
+
 
 
 	def register_user(self, user):
@@ -16,8 +39,9 @@ class Website:
 		if not user.username in self.database:
 
 			self.database[user.username] = [user.password, user]
+			self.all_users.add(user)
 			user.add_notification('Welcome', 'Welcome to i-solation, the quarantine webapp. Get started by clicking on your profile > profile page')
-			
+
 			return user
 
 		return False
@@ -40,6 +64,36 @@ class Website:
 
 		except:
 			return False
+
+
+	# def get_top_post(self):
+
+	# 	# this could be better
+
+	# 	for user in self.all_users():
+	# 		for post in user.posts:
+	# 			yield post.serialise(True)
+
+	# 	yield Post('No more posts', 'No more posts', User('No more posts', 'No more posts')).serialise(True)
+
+
+	def get_top_posts(self):
+
+		# returns a list of up to 20 generic posts by users
+
+		top_posts = []
+
+		for user in self.all_users:
+			for post in user.posts:
+				top_posts.append(user.posts[post].serialise(True))
+				if len(top_posts) > 20:
+					break
+
+		return top_posts
+
+
+
+
 
 class Post:
 
@@ -95,6 +149,10 @@ class User:
 		self.reputation = 0
 		self.notifications = {}
 		self.followers = set()
+		self.following = set()
+		self.viewed_posts = set()
+		self.post_generator = self.get_recommended()
+
 
 
 	def create_post(self, heading, content):
@@ -155,3 +213,20 @@ class User:
 	def get_notifications(self):
 
 		return self.notifications
+
+
+	def get_recommended(self):
+
+
+		for user in self.following:
+			for post in user.posts:
+
+				if not user.posts[post] in self.viewed_posts:
+					self.viewed_posts.add(user.posts[post])
+					yield post.serialise(True)
+
+		yield Post('no heading', 'no content', self).serialise()
+
+
+
+

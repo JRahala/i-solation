@@ -295,6 +295,7 @@ function signOut(){
 
 	// clear the User variable (not global)
 	saveGlobal('signedOut', true);
+	saveGlobal('User', {})
 
 	// reload the webpage (with signedOut settings) -> wont loadUser()
 	// this is acting weird - I will revisit it later

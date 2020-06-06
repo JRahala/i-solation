@@ -166,7 +166,6 @@ def edit_post():
 	return jsonify(response)
 
 
-
 @app.route('/create_new_post', methods = ['POST'])
 def create_new_post():
 
@@ -192,7 +191,6 @@ def create_new_post():
 	return jsonify(response)
 
 
-
 @app.route('/delete_post', methods = ['POST'])
 def delete_post():
 
@@ -213,13 +211,33 @@ def delete_post():
 	return jsonify(response)
 
 
-
-
 ''' socket responses -> see if I can use as normal links?'''
 
 @app.route('/create_post')
 def create_post():
 	return render_template('create_post.html')
+
+
+@app.route('/get_recommended_post', methods = ['POST'])
+def get_recommended_post():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	# Serialise generator -> for post 
+	# Implement session_id system
+
+	if not user:
+		response['post'] = server.get_top_posts()
+
+	else:
+		response['post'] = next(user.get_recommended())
+
+	return jsonify(response)
+
 
 
 @socketio.on('chat')
