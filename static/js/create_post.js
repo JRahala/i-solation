@@ -20,8 +20,12 @@ function getPosts(){
 
 	sendHTTPRequest('POST', '/get_posts', {'username': User.username})
 
-	.then(function(posts){
-		console.log(posts);
+	.then(function(responseData){
+
+		for (var i = 0; i < responseData.posts.length; i++){
+			addPost(responseData.posts[i]);
+		}
+
 	})
 	
 	.catch(function(err){
@@ -119,15 +123,28 @@ function editPost(){
 }
 
 
-// add post element to the list
+// add post element to the list ---------------- NEED TO EDIT WHEN MAKING THE DELETE BUTTON, since delete button has no onclikc event attached
+// turn date into ISO FORMAT --------------
+
 function addPost(post){
 
 	console.log(post.heading, post.content, post.date, post.votes);
 
 	var postList = document.getElementById('postList');
-
 	var listItem = document.createElement('li');
+	listItem.classList = 'list-group-item';
 
+	// format time
+	var t = new Date(parseInt(post.date))
+	var time_string = t.toDateString();
+
+	listItem.innerHTML = `<button type='button' class = 'btn btn-danger float-right ml-1 mr-1 postDelete' data-toggle='modal' data-target='#editModal'>\
+	<i class='fas fa-trash-alt'></i></button>\
+	<button type='button' class = 'btn btn-success float-right ml-1 mr-1 postEdit' data-toggle='modal' data-target='#editModal' onclick = 'recordElement(this)'>\
+	<i class='fas fa-edit'></i></button> <h5 class='card-title postName'>${post.heading}</h5>	<h6 class='card-subtitle mb-2 text-muted postContent'>${post.content}</h6>\
+	<p class = 'card-text postDate'> ${time_string} </p>`;
+
+	postList.insertBefore(listItem, postList.childNodes[0]);
 
 }
 
