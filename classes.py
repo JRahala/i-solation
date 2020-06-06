@@ -54,7 +54,7 @@ class Post:
 		self.author = author
 
 		self.votes = 0
-		self.date = time.localtime()
+		self.date = time.time() * 1000
 		self.comments = []
 
 
@@ -72,6 +72,16 @@ class Post:
 		self.content = new_content
 
 		return self
+
+
+	# for some reason this post object will not serialise (probably due to the author object)
+
+	def serialise(self, comments = False):
+
+		response =  {'heading': self.heading, 'content': self.content, 'author': self.author.username, 'votes': self.votes, 'date': self.date}
+		if comments: response['comments'] = self.comments
+		
+		return response
 
 
 class User:
@@ -94,7 +104,7 @@ class User:
 			post = Post(heading, content, self)
 			self.posts[post.heading] = post
 
-			for user in followers:
+			for user in self.followers:
 				user.add_notification(self.username, f'has just posted {post.heading}')
 
 			return post
