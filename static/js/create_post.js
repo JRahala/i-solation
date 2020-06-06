@@ -44,23 +44,33 @@ function createPost(){
 
 		if (responseData.worked == true){
 
-			console.log(responseData);
+			var err_msg = document.getElementById('create-modal-error');
+			err_msg.classList = 'text-success';
+			err_msg.innerText = 'Successfully created post!';	
+
+			addPost(responseData.post);
 
 		}
 
 		else{
 
-			console.log(responseData);
+			var err_msg = document.getElementById('create-modal-error');
+			err_msg.classList = 'text-danger';
+			err_msg.innerText = responseData.error;
 
 		}
 
 	})
 
+
 	.catch(function (err){
 
-		console.log(err);
+		var err_msg = document.getElementById('create-modal-error');
+		err_msg.classList = 'text-danger';
+		err_msg.innerText = 'Unexpected error occured on server, please try again later';
 
 	});
+
 
 
 }
@@ -111,6 +121,8 @@ function editPost(){
 
 // add post element to the list
 function addPost(post){
+
+	console.log(post.heading, post.content, post.date, post.votes);
 
 	var postList = document.getElementById('postList');
 

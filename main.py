@@ -180,9 +180,11 @@ def create_new_post():
 
 	if not post:
 		response['worked'] = False
+		response['error'] = 'You already have a post with the same heading'
 
 	else:
 		response['worked'] = True
+		response['post'] = post.serialise()
 
 	return jsonify(response)
 
