@@ -1,5 +1,4 @@
 /*
-
 onload:
 
 -> get local storage, check for user logged in
@@ -172,16 +171,17 @@ window.onload = function(){
 	window.User = loadGlobal('User');
 	window.signedOut = loadGlobal('signedOut');
 
-	if (User != null & (signedOut == false || signedOut == null)){
+	if (User != null & (window.signedOut == false || window.signedOut == null)){
 
 		// load the user button in the navbar
-
 		loadUser();
 
 	}
 
 	if (User == null){
+
 		User = {};
+		
 	}
 
 }
@@ -195,7 +195,6 @@ function signUp(){
 	const password = document.getElementById('sign-up-password').value;
 	const valid_pswd = document.getElementById('sign-up-valid-password').value;
 
-	console.log(username, password, valid_pswd);
 
 	var msg = document.getElementById('sign-up-error-message');
 	
@@ -223,9 +222,9 @@ function signUp(){
 			User.username = username;
 			User.password = password;
 
-			// change signOut setting
-			saveGlobal('signOut', false);
-
+			// change signedOut setting
+			saveGlobal('signedOut', false);
+			saveGlobal('User', User);
 			loadUser();
 
 		}
@@ -273,7 +272,8 @@ function Login(){
 			console.log(username, password);
 
 			// change sign out setting
-			saveGlobal('signOut', false);
+			saveGlobal('User', User);
+			saveGlobal('signedOut', false);
 
 			loadUser();
 
