@@ -18,6 +18,10 @@ myself = User('J', '123')
 server.register_user(myself)
 
 myself.add_notification('Header', 'Body')
+myself.create_post('Heading', 'Content')
+myself.create_post('ABlka', ':KM<A>')
+myself.create_post('jknNohn', 'KLMJ')
+myself.create_post('Pjkwjd', '1kj9ksd')
 
 
 @app.route('/')
@@ -116,12 +120,111 @@ def get_notifications():
 	return jsonify(response)
 
 
-''' socket responses '''
+
+# create an active and unactive user property so that if I try to access user data from the database without being logged in, the databse will return nothing
+# this requires the password to have been previously typed in
+# when the user logs in / signs up the active = True
+# on window.close -> user.active = False
+
+@app.route('/get_posts', methods = ['POST'])
+def get_posts():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	response['posts'] = [user.posts[post].serialise(False) for post in user.posts]
+
+	return jsonify(response)
+
+
+@app.route('/edit_post', methods = ['POST'])
+def edit_post():
+
+	response = {'worked': True, 'error': False}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+
+
+	original_heading = data['original_heading']
+	new_heading = data['new_heading']
+	new_content = data['new_content']
+
+	response['new_heading'] =  data['new_heading']
+	response['new_content'] =  data['new_content']
+
+	if not user.edit_post(original_heading, new_heading, new_content):
+
+		response['worked'] = False
+		response['error'] = 'You already have a post with the same heading'
+
+	return jsonify(response)
+
+
+
+@app.route('/create_new_post', methods = ['POST'])
+def create_new_post():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	heading = data['heading']
+	content = data['content']
+
+	post = user.create_post(heading, content)
+
+	if not post:
+		response['worked'] = False
+		response['error'] = 'You already have a post with the same heading'
+
+	else:
+		response['worked'] = True
+		response['post'] = post.serialise()
+
+	return jsonify(response)
+
+
+
+@app.route('/delete_post', methods = ['POST'])
+def delete_post():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	heading = data['heading']
+
+	if user.delete_post(heading):
+		response['worked'] = True
+
+	else:
+		response['worked'] = False
+
+	return jsonify(response)
+
+
+
+
+''' socket responses -> see if I can use as normal links?'''
+
+@app.route('/create_post')
+def create_post():
+	return render_template('create_post.html')
+
 
 @socketio.on('chat')
 def chat(data):
 
     emit('chat', data)
-
 
 socketio.run(app, host = '0.0.0.0', port = 4000, debug = True)

@@ -1,0 +1,171 @@
+{% extends 'template.html' %}
+
+{% set fileName = 'create_post' %}
+{% set title = 'Create & Edit posts' %}
+
+<!-- 
+
+	Drop down lost of all current posts they have made
+	Sorted by date
+	Add a search
+	For now just display by date
+	Pagination / Scrolling
+
+	[Data][Heading][Edit][Delete]
+
+	Post editing is an overlay
+
+	[Editor]
+	[Heading]
+	[Img -> null]
+	[Body]
+
+	[Tags]
+
+	*** The main problem is that with more posts, the longer it will take to load. I have to successively load the posts if I get time
+
+-->
+
+{% block content %}
+
+<h2 class = 'mt-3'> Create and Edit your posts </h2>
+
+<hr>
+
+<p>Create your post using the blue button, search and sort for a post using the searchbar </p>  
+
+
+<input class="form-control" id="postSearch" type="text" placeholder="Search..">
+
+<div class="dropdown mt-2">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort by...
+  </button>
+
+  <button class = 'btn btn-primary' data-toggle="modal" data-target="#createModal" >
+  	<i class="fas fa-plus-square"></i> Create a new post
+  </button>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+    <button class="dropdown-item postSort disabled" data-sortKey = '.postVotes'>Date (ascending)</button>
+    <button class="dropdown-item postSort disabled">Date (descending)</button>
+    <button class="dropdown-item postSort disabled" data-sortKey = '.postVotes'>Likes (ascending)</button>
+    <button class="dropdown-item postSort disabled">Likes (descending)</button>
+
+  </div>
+</div>
+
+
+<br>
+
+<ul class="list-group" id="postList">
+
+
+	<!-- EXAMPLE POST ITEM
+	<li class="list-group-item">
+		
+    		
+    		<button type="button" class = 'btn btn-danger float-right ml-1 mr-1 postDelete' data-toggle="modal" data-target="#editModal"><i class="fas fa-trash-alt"></i></button>
+    		<button type="button" class = 'btn btn-success float-right ml-1 mr-1 postEdit' data-toggle="modal" data-target="#editModal" onclick = 'recordElement(this)'><i class="fas fa-edit"></i></button>
+    		<button type='button' class = 'btn btn-primary float-right ml-1 mr-1'><div class = 'postVotes'>votes</div><i class='fas fa-thumbs-up'></i></button>
+
+			<h5 class="card-title postName">Heading</h5>
+		    <h6 class="card-subtitle mb-2 text-muted postContent">Content</h6>
+		    <p class = 'card-text postDate'> Date </p>
+
+	</li>
+	-->
+
+
+</ul> 
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title">Edit your post </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+        <form>
+
+          <div class="form-group">
+            <input type="text" class="form-control" id="modal-postName" placeholder="Post heading">
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" id="modal-postContent" placeholder="Post content"></textarea>
+          </div>
+
+          <div class = 'form-group'>
+          	<p class = '' id = 'modal-error'></p>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick = "editPost()">Save message</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title"> Create a new post </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+        <form>
+
+          <div class="form-group">
+            <input type="text" class="form-control" id="create-modal-postName" placeholder="Post heading">
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" id="create-modal-postContent" placeholder="Post content"></textarea>
+          </div>
+
+          <div class = 'form-group'>
+          	<p class = '' id = 'create-modal-error'></p>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick = "createPost()">Create message</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
