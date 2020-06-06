@@ -217,12 +217,12 @@ class User:
 
 	def get_recommended(self):
 
-
 		for user in self.following:
 			for post in user.posts:
 
 				if not user.posts[post] in self.viewed_posts:
 					self.viewed_posts.add(user.posts[post])
+					
 					yield post.serialise(True)
 
 		yield Post('no heading', 'no content', self).serialise()

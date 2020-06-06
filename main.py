@@ -234,7 +234,7 @@ def get_recommended_post():
 		response['post'] = server.get_top_posts()
 
 	else:
-		response['post'] = next(user.get_recommended())
+		response['post'] = [next(user.get_recommended()) for i in range(10)]
 
 	return jsonify(response)
 

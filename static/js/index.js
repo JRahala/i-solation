@@ -13,7 +13,7 @@ function get_recommended_post(){
 
 	.then(function (responseData){
 
-		console.log(responseData)
+		console.log(responseData);
 
 	})
 
