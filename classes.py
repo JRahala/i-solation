@@ -107,7 +107,9 @@ class Post:
 		self.content = content
 		self.author = author
 
-		self.votes = 0
+		self.likes = 0
+		self.dislikes = 0
+
 		self.date = time.time() * 1000
 		self.comments = []
 
@@ -132,7 +134,7 @@ class Post:
 
 	def serialise(self, comments = False):
 
-		response =  {'heading': self.heading, 'content': self.content, 'author': self.author.username, 'votes': self.votes, 'date': self.date}
+		response =  {'heading': self.heading, 'content': self.content, 'author': self.author.username, 'likes': self.likes, 'dislikes': self.dislikes, 'date': self.date}
 		if comments: response['comments'] = self.comments
 		
 		return response
@@ -222,7 +224,7 @@ class User:
 
 				if not user.posts[post] in self.viewed_posts:
 					self.viewed_posts.add(user.posts[post])
-					
+
 					yield post.serialise(True)
 
 		yield Post('no heading', 'no content', self).serialise()

@@ -24,3 +24,10 @@ function get_recommended_post(){
 	})
 
 }
+
+
+function displayPost(){
+
+	
+
+}

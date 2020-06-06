@@ -152,7 +152,7 @@ function editPost(){
 
 function addPost(post){
 
-	console.log(post.heading, post.content, post.date, post.votes);
+	console.log(post.heading, post.content, post.date, post.likes);
 
 	var postList = document.getElementById('postList');
 	var listItem = document.createElement('li');
@@ -166,7 +166,7 @@ function addPost(post){
 	<i class='fas fa-trash-alt'></i></button>\
 	<button type='button' class = 'btn btn-success float-right ml-1 mr-1 postEdit' data-toggle='modal' data-target='#editModal' onclick = 'recordElement(this)'>\
 	<i class='fas fa-edit'></i></button>\
-	<button type='button' class = 'btn btn-primary float-right ml-1 mr-1'>${post.votes + ' '}<i class='fas fa-thumbs-up'></i></button>\
+	<button type='button' class = 'btn btn-primary float-right ml-1 mr-1'>${post.likes + ' '}<i class='fas fa-thumbs-up'></i></button>\
 	<h5 class='card-title postName'>${post.heading}</h5>	<h6 class='card-subtitle mb-2 text-muted postContent'>${post.content}</h6>\
 	<p class = 'card-text postDate'> ${time_string} </p>`;
 
