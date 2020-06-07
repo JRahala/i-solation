@@ -48,6 +48,23 @@ window.addEventListener("load",function(event) {
 
 		})
 
+		// following
+
+		sendHTTPRequest('POST', '/get_following', {'otherUsername': otherUsername})
+
+		.then(function(responseData){
+			var followList = responseData.following;
+			for (var i = 0; i < followList.length; i ++){
+				$('#profileFollowing').html(`<small class="card-title d-inline-block">${followList[i]}</small><a href="/profiles/${followList[i]}" class="badge badge-sm badge-primary ml-2"> Follow </a></a>`);	
+			}
+
+		})
+
+		.catch(function(err){
+
+		})
+
+
 	}
 
 	else{

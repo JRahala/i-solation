@@ -353,6 +353,20 @@ def get_last_post():
 	return jsonify(response)
 
 
+@app.route('/get_following', methods = ['POST'])
+def get_following():
+
+	response = {}
+	data = request.get_json()
+
+	other_username = data['otherUsername']
+	other_user = server.get_user_by_username(other_username)
+
+	response['following'] = other_user.get_following()
+
+	return jsonify(response)
+
+
 
 
 @socketio.on('chat')

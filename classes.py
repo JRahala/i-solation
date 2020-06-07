@@ -325,6 +325,9 @@ class User:
 
 
 	def get_last_post(self):
-		
+
 		return self.last_post.serialise()
 
+	def get_following(self):
+
+		return [user.username for user in self.following]
