@@ -46,3 +46,21 @@ function follow(otherUsername){
 		})
 	}
 }
+
+function unfollow(otherUsername){
+	if (userLoggedIn() == false){
+		$('#notLoggedIn').modal();
+	}
+
+	else{
+		sendHTTPRequest('POST', '/unfollow_user', {'username': User.username, 'otherUsername': otherUsername})
+
+		.then(function (responseData){
+			window.followBtn.innerHTML = `<button class = 'btn btn-primary' onclick = "follow('${otherUsername}')">Follow<i class="fas fa-user-plus ml-2"></i></button>`;
+		})
+
+		.catch(function (err){
+			console.log(err);
+		})
+	}
+}
