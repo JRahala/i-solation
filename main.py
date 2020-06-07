@@ -14,7 +14,7 @@ server = Website()
 Test script
 '''
 
-myself = User('J', '123')
+myself = User('J', '123', server)
 server.register_user(myself)
 
 myself.add_notification('Header', 'Body')
@@ -47,7 +47,7 @@ def sign_up():
 	username = data['username']
 	password = data['password']
 
-	newUser = User(username, password)
+	newUser = User(username, password, server)
 
 
 	if server.register_user(newUser):
@@ -240,7 +240,10 @@ def get_recommended_post():
 	# Implement session_id system
 
 	if not user:
-		response['post'] = server.get_top_posts()
+		server_post_generator = server.get_top_posts()
+		response['post'] = []
+		for i in range(10):
+			response['post'].append(next(server_post_generator))
 
 	else:
 		response['post'] = []
@@ -263,6 +266,27 @@ def comment_post():
 	response['comment'] = {'author': data['commentAuthor'], 'content': data['commentContent']}
 	return jsonify(response)
 
+
+@app.route('/comment_vote', methods = ['POST'])
+def comment_vote():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['postAuthor']
+	user = server.get_user_by_username(user)
+
+	response['newValue'] = user.comment_vote(data['postHeading'], data['voteAuthor'], data['voteType'])
+	return jsonify(response)
+
+
+@app.route('/profiles/<profile_name>')
+def profiles(profile_name = ''):
+
+	user = profile_name
+	user = server.get_user_by_username(user)
+
+	return render_template(user)
 
 
 @socketio.on('chat')

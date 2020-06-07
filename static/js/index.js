@@ -9,6 +9,10 @@ window.addEventListener("load",function(event) {
 		document.getElementById('leftContainer').innerHTML += `<center><button class = 'btn btn-primary mt-5 p-3' onclick = 'get_recommended_post()'> <h3> Load more posts ...  <i class="fas fa-plus-square"></i> </h3> </button> <br> <br> </center>`;
 	}
 
+	else{
+		document.getElementById('leftContainer').innerHTML += `<center><button class = 'btn btn-primary mt-5 p-3' onclick = '$("#notLogged").modal()'> <h3> Load more posts ...  <i class="fas fa-plus-square"></i> </h3> </button> <br> <br> </center>`;
+	}
+
 	get_recommended_post();
 
 
@@ -29,7 +33,6 @@ function sendComment(el){
 	var postHeading = $(el).parent().parent().parent().parent().find('.postHeading').text();
 	var postAuthor = $(el).parent().parent().parent().parent().find('.postAuthor').text();
 
-	alert(postAuthor);
 	console.log(postAuthor);
 
 	sendHTTPRequest('POST', '/comment_post', {'commentAuthor':commentAuthor, 'commentContent': commentContent, 'postHeading': postHeading, 'postAuthor': postAuthor})
@@ -46,6 +49,38 @@ function sendComment(el){
 	})
 
 
+}
+
+
+
+function votePost(el, voteType){
+
+
+	if (User.username == false || User.username == null ||  User.username == 'anonymous'){
+		$('#notLogged').modal();
+	}
+
+	else{
+
+		var parentPost = $(el).parent().parent();
+		
+		var postAuthor = parentPost.find('.postAuthor').text();
+		var postHeading = parentPost.find('.postHeading').text();
+		var voteAuthor = User.username;
+		var voteType = voteType;
+
+		console.log({'postAuthor': postAuthor, 'postHeading': postHeading, 'voteAuthor': voteAuthor, 'voteType': voteType});
+		sendHTTPRequest('POST', '/comment_vote', {'postAuthor': postAuthor, 'postHeading': postHeading, 'voteAuthor': voteAuthor, 'voteType': voteType})
+
+		.then(function (responseData){
+			console.log(responseData);
+		})
+
+		.catch(function(err){
+			console.log(err);
+		})
+	
+	}
 }
 
 
@@ -78,7 +113,7 @@ function get_recommended_post(){
 		}
 
 		if (Username == false){
-			document.getElementById('postContainer').innerHTML += '<h2> Sign up to view more posts by the community </h2>';
+			document.getElementById('postContainer').innerHTML += '<h2 class = "mt-2 text-center"> Sign up to view more posts by the community </h2>';
 		}
 
 
@@ -112,11 +147,11 @@ function displayPost(post){
 
 		  <div class="card-footer">
 
-		  	<button class = 'btn btn-success postLikes'>
+		  	<button class = 'btn btn-success postLikes' onclick = 'votePost(this, 1)'>
 		  		${post.likes + ' '} <i class="fas fa-thumbs-up"></i>
 		  	</button>
 
-		  	<button class = 'btn btn-danger postDislikes'>
+		  	<button class = 'btn btn-danger postDislikes' onclick = 'votePost(this, -1)'>
 		  		${post.dislikes + ' '} <i class="fas fa-thumbs-down"></i>
 		  	</button>
 

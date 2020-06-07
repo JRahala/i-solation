@@ -80,16 +80,15 @@ class Website:
 	def get_top_posts(self):
 
 		# returns a list of up to 20 generic posts by users
-
-		top_posts = []
+		# turn into a generator and yield one
 
 		for user in self.all_users:
 			for post in user.posts:
-				top_posts.append(user.posts[post].serialise(True))
-				if len(top_posts) > 20:
-					break
+				yield user.posts[post].serialise(True)
+				
 
-		return top_posts
+		while True:
+			yield(Post('Ran out of posts', 'Ran out of posts', User('', '', self)).serialise(True))
 
 
 
@@ -109,6 +108,9 @@ class Post:
 
 		self.likes = 0
 		self.dislikes = 0
+
+		self.likers = set()
+		self.dislikers = set()
 
 		self.date = time.time() * 1000
 		self.comments = [['Author', 'Comment'], ['Author 2', 'Comment 2']]
@@ -142,10 +144,11 @@ class Post:
 
 class User:
 
-	def __init__(self, username, password):
+	def __init__(self, username, password, server):
 
 		self.username = username
 		self.password = password
+		self.server = server
 
 		self.posts = {}
 		self.reputation = 0
@@ -219,6 +222,8 @@ class User:
 
 	def get_recommended(self):
 
+		get_from_server = self.server.get_top_posts()
+
 		for user in self.following:
 			for post in user.posts:
 
@@ -228,7 +233,7 @@ class User:
 					yield post.serialise(True)
 
 		while True:
-			yield Post('no heading', 'no content', self).serialise(True)
+			yield next(get_from_server)
 
 
 	def comment_post(self, post_heading, comment_author, comment_content):
@@ -241,5 +246,63 @@ class User:
 			pass
 			
 		return comment_author, comment_content
+
+
+	def comment_vote(self, post_heading, vote_author, vote_type):
+
+		# returns new number of up/down votes
+
+		post = self.posts[post_heading]
+
+		if vote_type == 1:
+
+			if vote_author in post.likers:
+				# undo vote
+				post.likes -= 1
+				post.likers.remove(vote_author)
+
+			else:
+
+				# make postitive vote
+
+				if vote_author in post.dislikers:
+
+					# undo vote
+					post.dislikes -= 1
+					post.dislikers.remove(vote_author)
+
+				post.likers.add(vote_author)
+				post.likes += 1
+
+			return post.likes
+
+
+		else:
+
+			if vote_author in post.dislikers:
+				# undo vote
+				post.dislikes -= 1
+				post.dislikers.remove(vote_author)
+
+			else:
+
+				# make postitive vote
+
+				if vote_author in post.likers:
+
+					# undo vote
+					post.likes -= 1
+					post.likers.remove(vote_author)
+
+				post.dislikers.add(vote_author)
+				post.dislikes += 1
+
+			return post.dislikes
+
+
+
+
+
+
 
 
