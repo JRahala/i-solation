@@ -301,10 +301,22 @@ class User:
 		return post.likes, post.dislikes
 
 
-	def is_following(self, other_username):
+	def is_following(self, other_user):
 
-		return other_username in {user.username for user in self.following}
+		return other_user in self.following
 
 
+	def follow_user(self, other_user):
 
+		self.following.add(other_user)
+		other_user.followers.add(self)
+
+
+	def unfollow_user(self, other_user):
+
+		if other_user in self.following:
+			self.following.remove(other_user)
+
+		if self in other_user.followers:
+			other_user.followers.remove(self)
 

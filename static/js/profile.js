@@ -1,6 +1,6 @@
 window.addEventListener("load",function(event) {
 
-	window.otherUsername = document.getElementById('otherUsername');
+	window.otherUsername = document.getElementById('otherUsername').innerText;
 	window.followBtn = document.getElementById('followingBtn');
 
 	if (userLoggedIn() == true){
@@ -8,11 +8,11 @@ window.addEventListener("load",function(event) {
 		sendHTTPRequest('POST', '/is_following', {'username': User.username, 'otherUsername': otherUsername})
 
 		.then(function(responseData){
-			if (responseData.is_following == true){
-				followBtn.innerHTML = `<button class = 'btn btn-primary' onclick = "follow(this, ${otherUsername})">Follow<i class="fas fa-user-plus ml-2"></i></button>`;
+			if (responseData.is_following == false){
+				followBtn.innerHTML = `<button class = 'btn btn-primary' onclick = "follow('${otherUsername}')">Follow<i class="fas fa-user-plus ml-2"></i></button>`;
 			}
 			else{
-				followBtn.innerHTML = `<button class = 'btn btn-secondary' onclick = "unfollow(this, ${otherUsername})">Unfollow<i class="fa fa-undo ml-2"></i></button>`;
+				followBtn.innerHTML = `<button class = 'btn btn-secondary' onclick = "unfollow('${otherUsername}')">Unfollow<i class="fa fa-undo ml-2"></i></button>`;
 			}
 		})
 
@@ -23,7 +23,26 @@ window.addEventListener("load",function(event) {
 	}
 
 	else{
-		followBtn.innerHTML = `<button class = 'btn btn-primary' onclick = "follow(this, ${otherUsername})">Follow<i class="fas fa-user-plus ml-2"></i></button>`;
+		followBtn.innerHTML = `<button class = 'btn btn-primary' onclick = "follow('${otherUsername}')">Follow<i class="fas fa-user-plus ml-2"></i></button>`;
 	}
 
 },false);
+
+
+function follow(otherUsername){
+	if (userLoggedIn() == false){
+		$('#notLoggedIn').modal();
+	}
+
+	else{
+		sendHTTPRequest('POST', '/follow_user', {'username': User.username, 'otherUsername': otherUsername})
+
+		.then(function (responseData){
+			window.followBtn.innerHTML = `<button class = 'btn btn-secondary' onclick = "unfollow('${otherUsername}')">Unfollow<i class="fa fa-undo ml-2"></i></button>`;
+		})
+
+		.catch(function (err){
+			console.log(err);
+		})
+	}
+}

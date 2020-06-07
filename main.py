@@ -288,7 +288,7 @@ def profiles(profile_name = ''):
 	return render_template('profile.html', user = user)
 
 
-@app.route('/is_following')
+@app.route('/is_following', methods = ['POST'])
 def is_following():
 
 	response = {}
@@ -298,10 +298,28 @@ def is_following():
 	user = server.get_user_by_username(user)
 
 	other_username = data['otherUsername']
-	response['is_following'] = user.is_following(other_username)
+	other_user = server.get_user_by_username(other_username)
+
+	response['is_following'] = user.is_following(other_user)
 
 	return jsonify(response)
 
+
+@app.route('/follow_user', methods = ['POST'])
+def follow_user():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	other_username = data['otherUsername']
+	other_username = server.get_user_by_username(other_username)
+
+	user.follow_user(other_username)
+
+	return jsonify(response)
 
 
 @socketio.on('chat')
