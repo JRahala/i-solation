@@ -3,6 +3,23 @@ window.addEventListener("load",function(event) {
 	// if the user is not logged in display the error message
 	if (userLoggedIn() == true){
 
+		// load all the conversations the user in  is from the /get_conversations method
+		sendHTTPRequest('POST', '/get_conversations', {'username': User.username})
+
+		// display post for each post
+		.then(function (responseData){
+
+			var allConversations = responseData.allConversations;
+
+			for (var i = 0; i < allConversations.length; i++) {
+				displayGroup(allConversations[i]);
+			}
+
+		})
+
+		.catch(function(err){
+			displayError('Sorry, an error occured!', 'Conversations could not be loaded, please try again later');
+		})
 
 	}
 

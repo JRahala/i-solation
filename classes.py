@@ -406,4 +406,8 @@ class User:
 		else:
 			return False
 
+	def get_conversations(self):
+
+		return [conversation for conversation in self.conversations]
+
 

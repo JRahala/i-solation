@@ -368,14 +368,8 @@ def get_following():
 
 
 @app.route('/messages/')
-@app.route('/messages/<group>')
-def messages(group = None):
-
-	if group:
-		return render_template('index.html')
-
-	else:
-		return render_template('messages.html')
+def messages():
+	return render_template('messages.html')
 
 
 @app.route('/start_conversation', methods = ['POST'])
@@ -394,9 +388,22 @@ def start_conversation():
 		response['conversationName'] = conversation_name
 
 	else:
-		
+
 		response['worked'] = False
 		response['error'] = 'Name already in use for another group'
+
+	return jsonify(response)
+
+@app.route('/get_conversations', methods = ['POST'])
+def get_conversations():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	response['allConversations'] = user.get_conversations()
 
 	return jsonify(response)
 
