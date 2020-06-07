@@ -367,6 +367,15 @@ def get_following():
 	return jsonify(response)
 
 
+@app.route('/messages/')
+@app.route('/messages/<group>')
+def messages(group = None):
+
+	if group:
+		return render_template('index.html')
+
+	else:
+		return render_template('messages.html')
 
 
 @socketio.on('chat')

@@ -1,0 +1,51 @@
+{% extends 'template.html' %}
+
+{% set fileName = 'messages' %}
+{% set title = 'Messages' %}
+
+
+{% block content %}
+
+<div class = 'row mt-5' role = 'group' style = 'height:70vh;'>
+
+	<div class = 'col-md-4' style = 'overflow-y: scroll;max-height: 70vh;height:70vh;'>
+		<div class="list-group">
+		  <a href="#" class="list-group-item list-group-item-action active">Group 1</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 2</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 3</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 4</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 5</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 6</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 7</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 8</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 9</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 10</a>
+		  <a href="#" class="list-group-item list-group-item-action">Group 11</a>
+		</div>
+	</div>
+
+	<div class = 'col-md-8'>
+
+		<div style="width: 100%;">
+		  	<h6 class = 'p-2 d-inline-block'>Heading of the group</h6>
+		  	<button onclick = 'editHeading()' class = 'ml-2 btn btn-danger btn-sm d-inline-block'><i class="fa fa-cog"></i></button>
+		</div>		
+
+		<div class="card" style="width: 100%;">
+		  <div class="card-body" id = 'chatContainer' style = 'overflow-y: scroll;max-height: 60vh;height:60vh;'>
+		  </div>
+		</div>
+
+	</div>
+
+</div>
+
+
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" onclick = 'postMessage()'>Post</button>
+  </div>
+</div>
+
+{% endblock %}
