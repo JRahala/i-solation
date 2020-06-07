@@ -5,7 +5,7 @@
 
 window.addEventListener("load",function(event) {
 
-	if (User.username != null){
+	if (User.username != null && User.username != false && User.username != 'anonymous'){
 		document.getElementById('leftContainer').innerHTML += `<center><button class = 'btn btn-primary mt-5 p-3' onclick = 'get_recommended_post()'> <h3> Load more posts ...  <i class="fas fa-plus-square"></i> </h3> </button> <br> <br> </center>`;
 	}
 

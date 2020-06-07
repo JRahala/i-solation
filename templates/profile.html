@@ -3,10 +3,17 @@
 {% set fileName = 'profile' %}
 {% set title = 'View profiles' %}
 
-<div>
+{% block content %}
 
-<div> <h2> user.username </h2> </div>
+	<div class = ''>
 
-</div>
+	<div class = 'mt-3'> 
+		<h2 class = 'd-inline-block'> {{user.username}} <i class="fas fa-user-plus"></i> </h2> 
+		<div id = 'following'></div>
+		<hr>
+		<p>{{user.bio}}</p>
+	</div>
+
+	</div>
 
 {% endblock %}

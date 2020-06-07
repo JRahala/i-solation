@@ -80,6 +80,12 @@ function sendHTTPRequest(method, url, data){
 }
 
 
+// check if user is lgged in
+
+function userLoggedIn(){
+	return (User.username != null && User.username != false && User.username != 'anonymous');
+}
+
 function saveGlobal(key, value){
 
 	// overwrites data (stores copy, not reference)

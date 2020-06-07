@@ -285,7 +285,7 @@ def profiles(profile_name = ''):
 	user = profile_name
 	user = server.get_user_by_username(user)
 
-	return render_template(user)
+	return render_template('profile.html', user = user)
 
 
 @socketio.on('chat')

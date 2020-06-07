@@ -149,6 +149,8 @@ class User:
 		self.username = username
 		self.password = password
 		self.server = server
+		self.bio = 'Hello I am a new user'
+		self.date = time.time() * 1000
 
 		self.posts = {}
 		self.reputation = 0
