@@ -12,26 +12,14 @@
 
 	  	<button class = 'btn btn-success' style = 'width: 100%'  data-toggle="modal" data-target="#newGroup">Create new group +</button>
 
-		<div class="list-group mt-2" style = 'overflow-y: scroll;max-height: 60vh;height:60vh;'>
-			
-		  <a href="#" class="list-group-item list-group-item-action active">Group 1</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 2</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 3</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 4</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 5</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 6</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 7</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 8</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 9</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 10</a>
-		  <a href="#" class="list-group-item list-group-item-action">Group 11</a>
+		<div class="list-group mt-2" style = 'overflow-y: scroll;max-height: 60vh;height:60vh;' id = 'conversationList'>
 		</div>
 	</div>
 
 	<div class = 'col-md-8'>
 
 		<div style="width: 100%;">
-		  	<h6 class = 'p-2 d-inline-block'>Heading of the group</h6>
+		  	<h6 class = 'p-2 d-inline-block' id = 'conversationHeading'>Click on a group to show its conversations</h6>
 		  	<button onclick = 'editHeading()' class = 'ml-2 btn btn-danger btn-sm d-inline-block'><i class="fa fa-cog"></i></button>
 		</div>		
 
@@ -46,9 +34,9 @@
 
 
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <input type="text" class="form-control" placeholder="type your message here..." aria-label="text message" aria-describedby="basic-addon2">
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" onclick = 'postMessage()'>Post</button>
+    <button class="btn btn-outline-secondary" type="button" onclick = 'postMessage()'>Post<i class="fas fa-comment ml-2"></i></button>
   </div>
 </div>
 

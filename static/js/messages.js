@@ -73,6 +73,46 @@ function newConversation(){
 
 function displayGroup(conversationName){
 
-	console.log(conversationName);
+	// get the parent of the list of chat elements -> #conversationList
+	$('#conversationList').prepend(`<button class="list-group-item list-group-item-action" onclick = 'displayConversation("${conversationName}")'>${conversationName}</button>`);
+
+}
+
+
+function displayConversation(conversationName){
+
+	if (userLoggedIn() == false){
+		displayError('Sorry, an error occured!', 'Conversations could not be loaded, please try again later');
+	}
+
+	else{
+
+		// get conversation object, from name
+		sendHTTPRequest('POST', '/get_conversation_by_name', {'username': User.username, 'conversationName': conversationName})
+
+		.then(function (responseData){
+
+			// fill in the conversations heading
+			$('#conversationHeading').text(conversationName);
+
+			// fill in the pending requests
+
+			// fill in the history
+
+		})
+
+		.catch(function (err){
+			displayError('Sorry, an error occured!', 'Conversations could not be loaded, please try again later');
+		})
+
+	
+	}
+
+}
+
+
+function displayMessage(messageContent, messageAuthor){
+
+	console.log(messageContent, messageAuthor);
 
 }

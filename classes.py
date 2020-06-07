@@ -11,7 +11,7 @@ class Conversation:
 		self.owner = owner
 		self.allowed = set([owner])
 
-		self.history = []
+		self.history = [] # [username, msg, time]
 		self.pending = set()
 
 
@@ -20,7 +20,7 @@ class Conversation:
 	def chat(self, user, msg):
 
 		# add to message history
-		self.history.append([msg, time.time() * 1000])
+		self.history.append([user.username, msg, time.time() * 1000])
 
 
 	# request acces to chat in the conversation
@@ -53,6 +53,13 @@ class Conversation:
 
 		# remove pending request
 		self.pending.remove(requester)
+
+
+	# serialise the object for JSON packaging (as far message displaying needs to know)
+	def serialise(self):
+
+		return {'name': self.name, 'owner': self.owner.username, 'allowed': [user.username for user in self.allowed], 'history': self.history, 'pending': [user.username for user in self.pending]}
+
 
 
 
@@ -214,7 +221,7 @@ class User:
 		self.viewed_posts = set()
 		self.post_generator = self.get_recommended()
 		self.last_post = Post('This person has made no posts', '----', self)
-		self.conversations = {}
+		self.conversations = {'Start your first conversation by clicking "create new group"': Conversation(self, 'Start your first conversation by clicking "create new group"')}
 
 
 

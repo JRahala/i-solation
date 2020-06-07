@@ -394,6 +394,7 @@ def start_conversation():
 
 	return jsonify(response)
 
+
 @app.route('/get_conversations', methods = ['POST'])
 def get_conversations():
 
@@ -408,6 +409,20 @@ def get_conversations():
 	return jsonify(response)
 
 
+@app.route('/get_conversation_by_name', methods = ['POST'])
+def get_conversation_by_name():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	conversation_name = data['conversationName']
+
+	response['conversation'] = user.get_conversation_by_name(conversation_name).serialise()
+
+	return jsonify(response)
 
 
 
