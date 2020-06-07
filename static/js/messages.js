@@ -115,4 +115,8 @@ function displayMessage(messageContent, messageAuthor){
 
 	console.log(messageContent, messageAuthor);
 
+	// get the chat container
+	//$('#chatContainer').
+
+
 }

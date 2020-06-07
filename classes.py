@@ -13,6 +13,7 @@ class Conversation:
 
 		self.history = [] # [username, msg, time]
 		self.pending = set()
+		self.public = False # private conversation -> owner edits this (public for charity / group stuff)
 
 
 	# add a message in the group chat
@@ -61,6 +62,28 @@ class Conversation:
 		return {'name': self.name, 'owner': self.owner.username, 'allowed': [user.username for user in self.allowed], 'history': self.history, 'pending': [user.username for user in self.pending]}
 
 
+	# edit visibility (public / privacy) of conservation
+	def make_public(self, newName):
+
+		# this name for a project has been taken
+		if newName in self.user.server:
+			return False
+
+		else:
+
+			# make the identifier for the project 
+
+			self.name = newName
+
+			self.public = True
+			self.user.server.projects[self.name] = self
+
+			# notify users of project 
+
+			for follower in self.user.followers:
+				follower.add_notification(f'{self.user.username} started a public project {self.name}', 'help back them')
+
+			return newName
 
 
 
@@ -72,6 +95,7 @@ class Website:
 		self.database = {}
 		self.all_users = set()
 		self.anon_sessions = {}
+		self.projects = {}
 
 
 	# def generate_session():

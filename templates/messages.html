@@ -6,13 +6,13 @@
 
 {% block content %}
 
-<div class = 'row mt-5' role = 'group' style = 'height:70vh;'>
+<div class = 'row mt-3' role = 'group' style = 'height:80vh;'>
 
 	<div class = 'col-md-4'>
 
 	  	<button class = 'btn btn-success' style = 'width: 100%'  data-toggle="modal" data-target="#newGroup">Create new group +</button>
 
-		<div class="list-group mt-2" style = 'overflow-y: scroll;max-height: 60vh;height:60vh;' id = 'conversationList'>
+		<div class="list-group mt-2" style = 'overflow-y: scroll;max-height: 70vh;height:70vh;' id = 'conversationList'>
 		</div>
 	</div>
 
@@ -21,10 +21,26 @@
 		<div style="width: 100%;">
 		  	<h6 class = 'p-2 d-inline-block' id = 'conversationHeading'>Click on a group to show its conversations</h6>
 		  	<button onclick = 'editHeading()' class = 'ml-2 btn btn-danger btn-sm d-inline-block'><i class="fa fa-cog"></i></button>
+		  	<button onclick = 'editPending()' class = 'ml-2 btn btn-danger btn-sm d-inline-block float-right'> View requests <i class="fas fa-question-circle"></i></button> 
 		</div>		
 
 		<div class="card" style="width: 100%;">
-		  <div class="card-body" id = 'chatContainer' style = 'overflow-y: scroll;max-height: 60vh;height:60vh;'>
+		  <div class="card-body" id = 'chatContainer' style = 'overflow-y: scroll;max-height: 70vh;height:70vh;'>
+
+		  	<div class="card text-white bg-primary mb-3" style="max-width: 100%;">
+			  <div class="card-body">
+			    <h6 class="card-title">This is an example text msg that would be sent by a user</h6>
+			    <p class="card-text small">Person who sent the msg</p>
+			  </div>
+			</div>
+
+		  	<div class="card text-white bg-secondary mb-3 text-right" style="max-width: 100%;">
+			  <div class="card-body">
+			    <h6 class="card-title">This is an example text msg that would be sent by a user</h6>
+			    <p class="card-text small">Person who sent the msg</p>
+			  </div>
+			</div>
+
 		  </div>
 		</div>
 
