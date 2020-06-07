@@ -88,6 +88,17 @@ function milString(milliseconds){
 	return time_string;
 }
 
+
+// display error modal
+
+function displayError(errHeading = 'Something went wrong sorry!', errMsg = 'Please refresh the page and try again'){
+
+	$('#errorModal').find('.modal-title').text(errHeading);
+	$('#errorModal').find('.modal-body').text(errMsg);
+	$('#errorModal').modal();
+
+}
+
 // check if user is lgged in
 
 function userLoggedIn(){

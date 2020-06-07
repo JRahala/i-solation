@@ -378,6 +378,32 @@ def messages(group = None):
 		return render_template('messages.html')
 
 
+@app.route('/start_conversation', methods = ['POST'])
+def start_conversation():
+
+	response = {}
+	data = request.get_json()
+
+	user = data['username']
+	user = server.get_user_by_username(user)
+
+	conversation_name = data['conversationName']
+	if user.start_conversation(conversation_name):
+
+		response['worked'] = True
+		response['conversationName'] = conversation_name
+
+	else:
+		
+		response['worked'] = False
+		response['error'] = 'Name already in use for another group'
+
+	return jsonify(response)
+
+
+
+
+
 @socketio.on('chat')
 def chat(data):
 

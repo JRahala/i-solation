@@ -3,6 +3,60 @@ import time
 import uuid
 
 
+class Conversation:
+
+	def __init__(self, owner, name):
+
+		self.name = name
+		self.owner = owner
+		self.allowed = set([owner])
+
+		self.history = []
+		self.pending = set()
+
+
+	# add a message in the group chat
+
+	def chat(self, user, msg):
+
+		# add to message history
+		self.history.append([msg, time.time() * 1000])
+
+
+	# request acces to chat in the conversation
+	def request_access(self, requester):
+
+		# notify the owner of the group (with notification)
+		self.owner.add_notification(f'{self.name} request', f'{requester.username} has requested access to group: {self.name}', link = '#')
+		self.pending.add(requester)
+
+
+	# allow acces to the requester, with the owners permission
+	def allow_access(self, requester):
+
+		# alert the requester
+		requester.add_notification(f'You have been accepted into group: {self.name}')
+
+		# notify all group members
+		for user in self.allowed:
+			user.add_notification(f'{requester.username} have been added into group: {self.name}')
+
+		# remove pending request
+		self.pending.remove(requester)
+
+
+	# deny the requester access
+	def deny_access(self, requester):
+
+		# alert the requester
+		requester.add_notification(f'You have been denied from group: {self.name}')
+
+		# remove pending request
+		self.pending.remove(requester)
+
+
+
+
 
 class Website:
 
@@ -160,6 +214,7 @@ class User:
 		self.viewed_posts = set()
 		self.post_generator = self.get_recommended()
 		self.last_post = Post('This person has made no posts', '----', self)
+		self.conversations = {}
 
 
 
@@ -331,3 +386,24 @@ class User:
 	def get_following(self):
 
 		return [user.username for user in self.following]
+
+
+	def start_conversation(self, conversation_name):
+
+		if not conversation_name in self.conversations:
+			self.conversations[conversation_name] = Conversation(self, 'conversation_name')
+			return self.conversations[conversation_name]
+
+		else:
+			return False
+
+
+	def get_conversation_by_name(self, conversation_name):
+
+		if conversation_name in self.conversations:
+			return self.conversations[conversation_name]
+
+		else:
+			return False
+
+
