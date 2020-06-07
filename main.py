@@ -22,6 +22,15 @@ myself.create_post('Heading', 'Content')
 myself.create_post('ABlka', ':KM<A>')
 myself.create_post('jknNohn', 'KLMJ')
 myself.create_post('Pjkwjd', '1kj9ksd')
+myself.create_post('Hkjh', 'Content')
+myself.create_post('mnbslka', ':KM<A>')
+myself.create_post('jfkjNohn', 'KLMJ')
+myself.create_post('Kknwjd', '1kj9ksd')
+myself.create_post('mwjd', '1kj9ksd')
+myself.create_post('akj', 'Content')
+myself.create_post('mnbslka', ':KM<A>')
+myself.create_post('jfkjNohn', 'KLMJ')
+myself.create_post('@Lwjd', '1kj9ksd')
 
 
 @app.route('/')
@@ -234,8 +243,24 @@ def get_recommended_post():
 		response['post'] = server.get_top_posts()
 
 	else:
-		response['post'] = [next(user.get_recommended()) for i in range(10)]
+		response['post'] = []
+		for i in range(10):
+			response['post'].append(next(user.post_generator))
 
+	return jsonify(response)
+
+
+@app.route('/comment_post', methods = ['POST'])
+def comment_post():
+	#'commentAuthor':commentAuthor, 'commentContent': commentContent, 'postHeading': postHeading, 'postAuthor': postAuthor})
+	response = {}
+	data = request.get_json()
+
+	user = data['postAuthor']
+	user = server.get_user_by_username(user)
+
+	user.comment_post(data['postHeading'], data['commentAuthor'], data['commentContent'])
+	response['comment'] = {'author': data['commentAuthor'], 'content': data['commentContent']}
 	return jsonify(response)
 
 

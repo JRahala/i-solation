@@ -15,6 +15,40 @@ window.addEventListener("load",function(event) {
 },false);
 
 
+// send a comment
+
+function sendComment(el){
+
+	var commentContent = $(el).parent().parent().find('input').val();
+
+	if (User.username == null || User.username == false){
+		User.username = 'anonymous';
+	}
+
+	var commentAuthor = User.username;
+	var postHeading = $(el).parent().parent().parent().parent().find('.postHeading').text();
+	var postAuthor = $(el).parent().parent().parent().parent().find('.postAuthor').text();
+
+	alert(postAuthor);
+	console.log(postAuthor);
+
+	sendHTTPRequest('POST', '/comment_post', {'commentAuthor':commentAuthor, 'commentContent': commentContent, 'postHeading': postHeading, 'postAuthor': postAuthor})
+
+	.then(function (responseData){
+		// add comment to current comments
+		var comment = responseData.comment;
+		var commentBox = $(el).parent().parent().parent().parent().find('.commentBox');
+		displayComment(commentBox, comment.author, comment.content);
+	})
+
+	.catch(function(err){
+		console.log(err);
+	})
+
+
+}
+
+
 // show comments
 
 function toggleComments(el){
@@ -67,7 +101,7 @@ function displayPost(post){
 	document.getElementById('postContainer').innerHTML += `	<div class="card mt-3 postCard">
 
 		  <div class="card-header">
-		  	<button class = 'btn btn-dark postAuthor'> ${post.author} </button>
+		  	<button class = 'btn btn-dark'> <span class = 'postAuthor'>${post.author}</span> </button>
 		  	<p class = 'float-right text-muted postDate'> ${time_string} </p>
 		  </div>
 
@@ -86,13 +120,22 @@ function displayPost(post){
 		  		${post.dislikes + ' '} <i class="fas fa-thumbs-down"></i>
 		  	</button>
 
-		  	<button class = 'btn btn-primary' onclick = 'toggleComments(this)'>
-		  		Load Comments <i class="fas fa-comments"></i>
+		  	<button class = 'btn btn-secondary' onclick = 'toggleComments(this)'>
+		  		Show Comments <i class="fas fa-comments"></i>
 		  	</button>
 
-		  	<div class = 'commentBox collapse'>
+		  	<div class = 'commentBox collapse' style = 'max-height: 20vw; overflow-y: scroll'>
 			  	<br>
 		  	</div>
+
+		  	<br>
+
+		  	<div class="input-group input-group mt-2">
+	            <input type="text" class="form-control" placeholder = 'type in a comment'/>
+	          	<div class="input-group-btn">
+		            <button type="submit" class="btn" onclick = 'sendComment(this)'> Post <i class="fas fa-paper-plane"></i> </button>
+	          	</div>
+        	</div>
 
 		  </div>
 
@@ -102,12 +145,19 @@ function displayPost(post){
 	var commentBox = $('.postCard').last().find('.commentBox');
 	console.log(commentBox);
 
+	for (var i = 0; i < post.comments.length; i++){
+		displayComment(commentBox, post.comments[i][0], post.comments[i][1]);
+	}
+
+	/*
 
 	for (var i = 0; i < post.comments.length; i++){
 
 		var commentAuthor = document.createElement('a');
 		commentAuthor.classList = 'badge badge-info d-inline-block';
+		if (post.author != 'anonymous'){
 		commentAuthor.href = '/profiles/' + post.author;
+		}
 		commentAuthor.innerHTML = post.comments[i][0];
 
 		var commentPost = document.createElement('p');
@@ -125,5 +175,30 @@ function displayPost(post){
 
 	}
 
+	*/
+
+}
+
+function displayComment(commentBox, commentAuthor, commentContent){
+
+	var commentAuthorElement = document.createElement('a');
+	commentAuthorElement.classList = 'badge badge-info d-inline-block';
+	if (commentAuthor != 'anonymous'){
+	commentAuthorElement.href = '/profiles/' + commentAuthor;
+	}
+	commentAuthorElement.innerHTML = commentAuthor;
+
+	var commentContentElement = document.createElement('p');
+	commentContentElement.classList = 'text-muted d-inline-block ml-2';
+	commentContentElement.innerHTML = commentContent;
+
+	comment = document.createElement('div');
+	comment.appendChild(commentAuthorElement);
+	comment.appendChild(commentContentElement);
+	comment.innerHTML += '<br>'
+
+	console.log(comment);
+
+	commentBox.append(comment);
 
 }
