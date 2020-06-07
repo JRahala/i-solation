@@ -8,6 +8,28 @@
 
 window.addEventListener("load",function(event) {
 
+	if (User.username == null || User.password == null){
+		$('#notLogged').modal();
+	}
+
+	else{
+		sendHTTPRequest('POST', '/login', {'username': User.username, 'password': User.password})
+		
+		.then(function (responseData){
+			console.log(responseData);
+			if (responseData.worked == true){
+			}
+
+			else{
+				$('#notLogged').modal();
+			}
+		})
+
+		.catch(function (err){
+			$('#notLogged').modal();
+		})
+	}
+
 	getPosts();
 
 },false);

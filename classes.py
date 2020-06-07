@@ -227,14 +227,19 @@ class User:
 
 					yield post.serialise(True)
 
-		yield Post('no heading', 'no content', self).serialise()
+		while True:
+			yield Post('no heading', 'no content', self).serialise(True)
 
 
 	def comment_post(self, post_heading, comment_author, comment_content):
 
-		post = self.posts[post_heading]
-		post.comments.append([comment_author, comment_content])
+		try:
+			post = self.posts[post_heading]
+			post.comments.append([comment_author, comment_content])
 
+		except:
+			pass
+			
 		return comment_author, comment_content
 
 

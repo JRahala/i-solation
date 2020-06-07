@@ -101,7 +101,7 @@ function displayPost(post){
 	document.getElementById('postContainer').innerHTML += `	<div class="card mt-3 postCard">
 
 		  <div class="card-header">
-		  	<button class = 'btn btn-dark'> <span class = 'postAuthor'>${post.author}</span> </button>
+			<a class="btn btn-dark" href="/profiles/${post.author}" role="button"> <span class = 'postAuthor'>${post.author}</span> </a>
 		  	<p class = 'float-right text-muted postDate'> ${time_string} </p>
 		  </div>
 
