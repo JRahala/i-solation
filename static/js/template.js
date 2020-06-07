@@ -79,6 +79,14 @@ function sendHTTPRequest(method, url, data){
 
 }
 
+// turn milliseconds into dateString
+function milString(milliseconds){
+
+	var t = new Date(parseInt(milliseconds))
+	var time_string = t.toDateString();
+
+	return time_string;
+}
 
 // check if user is lgged in
 

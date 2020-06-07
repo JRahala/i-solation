@@ -339,6 +339,22 @@ def unfollow_user():
 	return jsonify(response)
 
 
+@app.route('/get_last_post', methods = ['POST'])
+def get_last_post():
+
+	response = {}
+	data = request.get_json()
+
+	other_username = data['otherUsername']
+	other_user = server.get_user_by_username(other_username)
+
+	response['post'] = other_user.get_last_post()
+
+	return jsonify(response)
+
+
+
+
 @socketio.on('chat')
 def chat(data):
 

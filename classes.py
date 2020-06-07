@@ -159,6 +159,7 @@ class User:
 		self.following = set()
 		self.viewed_posts = set()
 		self.post_generator = self.get_recommended()
+		self.last_post = Post('This person has made no posts', '----', self)
 
 
 
@@ -171,6 +172,8 @@ class User:
 
 			for user in self.followers:
 				user.add_notification(self.username, f'has just posted {post.heading}')
+
+			self.last_post = post
 
 			return post
 
@@ -319,4 +322,9 @@ class User:
 
 		if self in other_user.followers:
 			other_user.followers.remove(self)
+
+
+	def get_last_post(self):
+		
+		return self.last_post.serialise()
 

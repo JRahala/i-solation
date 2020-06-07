@@ -3,7 +3,19 @@ window.addEventListener("load",function(event) {
 	window.otherUsername = document.getElementById('otherUsername').innerText;
 	window.followBtn = document.getElementById('followingBtn');
 
+	// format the time
+
+	var profileDate = $('#profileDate').text();
+
+	var t = new Date(parseInt(profileDate))
+	var time_string = t.toDateString();
+
+	$('#profileDate').text(time_string);
+
+
 	if (userLoggedIn() == true){
+
+		// edit user following buttons
 
 		sendHTTPRequest('POST', '/is_following', {'username': User.username, 'otherUsername': otherUsername})
 
@@ -14,6 +26,22 @@ window.addEventListener("load",function(event) {
 			else{
 				followBtn.innerHTML = `<button class = 'btn btn-secondary' onclick = "unfollow('${otherUsername}')">Unfollow<i class="fa fa-undo ml-2"></i></button>`;
 			}
+		})
+
+		.catch(function(err){
+
+		})
+
+		// fill in last posts
+
+		sendHTTPRequest('POST', '/get_last_post', {'otherUsername': otherUsername})
+
+		.then(function(responseData){
+			var lastPost = responseData.post;
+			$('#latestDate').text(milString(lastPost.date));
+			$('#latestHeading').text(lastPost.heading);
+			$('#latestContent').text(lastPost.content);
+
 		})
 
 		.catch(function(err){
@@ -64,3 +92,4 @@ function unfollow(otherUsername){
 		})
 	}
 }
+

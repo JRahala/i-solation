@@ -13,7 +13,7 @@
 			<h2 class = 'd-inline-block'> <span id = 'otherUsername'>{{user.username}}</span> </h2> 
 			<div id = 'followingBtn' class = 'd-inline-block ml-3'></div>
 			<button id = 'messageBtn' class = 'd-inline-block ml-1 btn btn-light'> Direct Message <i class="fas fa-comment"></i></button>
-			<br><small> Joined on : {{user.date}}</small>
+			<br><small> Joined on : <span id = 'profileDate'>{{user.date}}</span></small>
 			<hr>
 			<p>{{user.bio}}</p>
 		</div>
@@ -21,7 +21,7 @@
 
 		<div id = 'latestPost'>
 			<div class="card">
-			  <h5 class="card-header">Latest Post <span id = 'latestDate'> </span></h5>
+			  <h5 class="card-header">Latest Post <span id = 'latestDate' class = 'font-italic small ml-2'> </span></h5>
 			  <div class="card-body">
 			    <h5 class="card-title" id = 'latestHeading'>Heading of post</h5>
 			    <p class="card-text" id = 'latestContent'>Content of post</p>
