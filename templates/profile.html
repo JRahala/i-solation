@@ -5,15 +5,62 @@
 
 {% block content %}
 
-	<div class = ''>
+<div class = 'row mt-3'>
 
-	<div class = 'mt-3'> 
-		<h2 class = 'd-inline-block'> {{user.username}} <i class="fas fa-user-plus"></i> </h2> 
-		<div id = 'following'></div>
-		<hr>
-		<p>{{user.bio}}</p>
+	<div class = 'profileInfo col-md-8'>
+
+		<div> 
+			<h2 class = 'd-inline-block'> <span id = 'otherUsername'>{{user.username}}</span> </h2> 
+			<div id = 'followingBtn' class = 'd-inline-block ml-3'></div>
+			<button id = 'messageBtn' class = 'd-inline-block ml-1 btn btn-light'> Direct Message <i class="fas fa-comment"></i></button>
+			<br><small> Joined on : {{user.date}}</small>
+			<hr>
+			<p>{{user.bio}}</p>
+		</div>
+
+
+		<div id = 'latestPost'>
+			<div class="card">
+			  <h5 class="card-header">Latest Post <span id = 'latestDate'> </span></h5>
+			  <div class="card-body">
+			    <h5 class="card-title" id = 'latestHeading'>Heading of post</h5>
+			    <p class="card-text" id = 'latestContent'>Content of post</p>
+			  </div>
+			</div>
+		</div>
+
 	</div>
 
+
+	<div class = 'profileMeta col-md-4 mt-3'>
+
+		<div class="card">
+
+		  <div class="card-header text-center">
+		    <h6>Currently is following...</h6>
+		  </div>
+
+		  <div class="card-body" id = 'profileFollowing' style = 'max-height: 40vh; overflow-y: scroll'>
+		    <small class="card-title d-inline-block">User who they follow</small>
+		    <a href="#" class="badge badge-sm badge-primary"> Follow </a></a>
+		  </div>
+
+		</div>
+
+		<div class="card mt-3">
+
+		  <div class="card-header text-center">
+		    <h6>Current projects...</h6>
+		  </div>
+
+		  <div class="card-body" id = 'profileProjects' style = 'max-height: 40vh; overflow-y: scroll'>
+		    <a href="#" class="badge badge-sm badge-primary"> Help </a></a>
+		  </div>
+
+		</div>
+
 	</div>
+
+</div>
 
 {% endblock %}

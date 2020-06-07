@@ -301,8 +301,9 @@ class User:
 		return post.likes, post.dislikes
 
 
+	def is_following(self, other_username):
 
-
+		return other_username in {user.username for user in self.following}
 
 
 
