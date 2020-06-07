@@ -73,7 +73,12 @@ function votePost(el, voteType){
 		sendHTTPRequest('POST', '/comment_vote', {'postAuthor': postAuthor, 'postHeading': postHeading, 'voteAuthor': voteAuthor, 'voteType': voteType})
 
 		.then(function (responseData){
-			console.log(responseData);
+
+			var newValues = responseData.newValues;
+
+			parentPost.find('.postLikes').html(`${newValues[0]}  <i class="fas fa-thumbs-up"></i>`);
+			parentPost.find('.postDislikes').html(`${newValues[1]}  <i class="fas fa-thumbs-down"></i>`);
+
 		})
 
 		.catch(function(err){

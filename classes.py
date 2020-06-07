@@ -274,8 +274,6 @@ class User:
 				post.likers.add(vote_author)
 				post.likes += 1
 
-			return post.likes
-
 
 		else:
 
@@ -297,7 +295,8 @@ class User:
 				post.dislikers.add(vote_author)
 				post.dislikes += 1
 
-			return post.dislikes
+
+		return post.likes, post.dislikes
 
 
 

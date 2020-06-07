@@ -19,7 +19,6 @@ server.register_user(myself)
 
 myself.add_notification('Header', 'Body')
 myself.create_post('Heading', 'Content')
-myself.create_post('ABlka', ':KM<A>')
 myself.create_post('jknNohn', 'KLMJ')
 myself.create_post('Pjkwjd', '1kj9ksd')
 myself.create_post('Hkjh', 'Content')
@@ -276,7 +275,7 @@ def comment_vote():
 	user = data['postAuthor']
 	user = server.get_user_by_username(user)
 
-	response['newValue'] = user.comment_vote(data['postHeading'], data['voteAuthor'], data['voteType'])
+	response['newValues'] = user.comment_vote(data['postHeading'], data['voteAuthor'], data['voteType'])
 	return jsonify(response)
 
 
