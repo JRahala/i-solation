@@ -113,8 +113,8 @@ class Post:
 		self.dislikers = set()
 
 		self.date = time.time() * 1000
-		self.comments = [['Author', 'Comment'], ['Author 2', 'Comment 2']]
-
+		#self.comments = [['Author', 'Comment'], ['Author 2', 'Comment 2']]
+		self.comments = []
 
 	def edit(self, new_heading, new_content):
 
