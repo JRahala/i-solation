@@ -452,20 +452,21 @@ def on_join(data):
 @socketio.on('leave')
 def on_leave(data):
 
-    leave_room(data['room'])
-    # Notification about leaving users
-    send({'msg': data['username'] + " has left the " + data['room']}, room=data['room'])
+	#notify users that user is leaving
+	leave_room(data['room'])
+	emit('chat', {'msg': data['username'] + " has left the " + data['room'], 'author': 'server', 'time': time.time() * 1000}, room = data['room'], broadcast = True)
 
 
 @socketio.on('new_room')
 def new_room(data):
 
-    ROOMS.append(data['new_room_name'])
-    room = data['new_room_name']
+    ROOMS.append(data['room'])
+    room = data['room']
     username = data['username']
-    join_room(data['new_room_name'])
+    join_room(data['room'])
     # Notification about new user joined room
-    send({"msg": username + " has created the " + room + " room"}, room=room)
+    emit('chat', {'msg': username + " has created the " + room + " room", 'author': 'server', 'time': time.time() * 1000}, room = room, broadcast = True)
+
 
 
 @socketio.on('chat')

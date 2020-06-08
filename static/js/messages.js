@@ -4,25 +4,24 @@
 var socket = io.connect("http://localhost:4000");
 
 // Trigger 'join' event
-function joinRoom(room) {
+function joinRoom() {
     // Join room
-    socket.emit('join', {'username': 'username', 'room': 'room'});
+    socket.emit('join', {'username': User.username, 'room': $('#conversationHeading').text()});
 }
 
 // Trigger 'leave' event if user was previously on a room
-function leaveRoom(room) {
-    socket.emit('leave', {'username': username, 'room': room});
+function leaveRoom() {
+    socket.emit('leave', {'username': User.username, 'room': $('#conversationHeading').text()});
 }
 
 // Trigger this event when a new room needs to be created
-function newRoom(room) {
-    socket.emit('new_room', {'username': username, 'room': room});
+function newRoom() {
+    socket.emit('new_room', {'username': User.username, 'room': $('#conversationHeading').text()});
 }
 
-
-
+// display messages on recieval
 socket.on('chat', function(data){
-    console.log(data);
+    displayMessage(data.msg, data.author, data.time);
 });
 
 
@@ -83,6 +82,9 @@ function newConversation(){
 				// confirm it worked with new group added at the top of the list
 				displayGroup(responseData.conversationName);
 
+				// create new socket io chat room
+				newRoom();
+
 			}
 
 			else{
@@ -120,18 +122,27 @@ function displayConversation(conversationName){
 
 		.then(function (responseData){
 
+			// clear the prvious conversation
+			$('#chatContainer').html('');
+
 			// fill in the conversations heading
 			$('#conversationHeading').text(conversationName);
 
 			// fill in the pending requests
 
-			// fill in the history
+			console.log(responseData.conversation);
+
+			// fill in the history - up to 20 posts back
+			for (var i = Math.min(responseData.conversation.history.length, 20); i > 0; i--){
+				msg = responseData.consversation.history[responseData.conversation.history.length - i - 1];
+				displayMessage(msg[1], msg[0], msg[2]);
+			}
 
 		})
 
-		.catch(function (err){
-			displayError('Sorry, an error occured!', 'Conversations could not be loaded, please try again later');
-		})
+		//.catch(function (err){
+		//	displayError('Sorry, an error occured!', 'Conversations could not be loaded, please try again later');
+		//})
 
 	
 	}
@@ -166,7 +177,19 @@ function displayMessage(messageContent, messageAuthor, messageTime){
 			</div>`
 			);
 	}
-	// 
+
+}
+
+
+function postMessage(){
+
+	// get input values
+	msgContent = $('#msgContentInput').val();
+
+	console.log($('#conversationHeading').text());
+
+	// socket send msg
+	socket.emit('chat', {'username': User.username, 'room': $('#conversationHeading').text(), 'content': msgContent});
 
 
 }
