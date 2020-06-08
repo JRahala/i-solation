@@ -1,0 +1,38 @@
+{% extends 'template.html' %}
+
+{% set fileName = 'community' %}
+
+{% block content %}
+
+
+<h2 class = 'mt-3'> Learn how you can get involved with projects around you </h2>
+
+<div class = 'mt-3 text-center p-3' style = 'background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);color:white;'>
+	<h3> Age UK </h3>
+	<p> As more elderly people are being made to self-quarantine, they may never have felt so worried and isolated.
+
+Age UK offers support and company for older people who need it most during this difficult period.
+
+Donations go toward its 24/7 helpline which provides regular outreach and friendship to those who may feel alone.
+</p>
+	<a href = 'https://www.ageuk.org.uk/' role = 'button' class = 'btn btn-dark'> Go </a>
+</div>
+
+<div class = 'mt-3 text-center p-3' style = 'background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); color: white'>
+	<h3> Run for Heroes </h3>
+	<p> Being charitable can also include an added bonus of keeping fit, which is the the idea behind Run For Heroes.
+The challenge involves participants running 5km (3.1 miles), donating £5 and asking five other people to do the same. </p>
+	<a href = 'https://uk.virginmoneygiving.com/fundraiser-display/showROFundraiserPage?userUrl=RunForHeroes&pageUrl=5' role = 'button' class = 'btn btn-dark'> Go </a>
+</div>
+
+<div class = 'mt-3 text-center p-3' style = 'background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);color:white'>
+	<h3> Mind </h3>
+	<p> Being in isolation can have a drastic effect on mental health and anxiety.
+
+Mind has made an emergency appeal to people to donate as demand for its services is likely to grow.
+
+A single donation of £20 could run its online peer support community Elefriends for an hour, while £40 could help the team answer calls to vulnerable people. </p>
+	<a href = 'https://www.mind.org.uk/' role = 'button' class = 'btn btn-dark'> Go </a>
+</div>
+
+{% endblock %}

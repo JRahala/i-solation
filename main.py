@@ -501,4 +501,16 @@ def physical_fitness():
 	return render_template('physical_fitness.html')
 
 
+@app.route('/childrens')
+def childrens():
+
+	return render_template('childrens.html')
+
+
+@app.route('/hero')
+def hero():
+
+	return render_template('hero.html')
+
+
 socketio.run(app, host = '0.0.0.0', port = 4000, debug = True)
