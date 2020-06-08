@@ -209,6 +209,10 @@ window.onload = function(){
 		
 	}
 
+	// load buttons
+
+	$('#profilePageButton').attr('href', `/profiles/${User.username}`);
+
 }
 
 

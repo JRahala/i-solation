@@ -488,5 +488,17 @@ def chat(data):
 	emit('chat', {'msg': messageContent, 'author': messageAuthor, 'time': time.time() * 1000}, room = conversationName, broadcast = True)
 
 
+# render community.html
+@app.route('/community')
+def community():
+
+	return render_template('community.html')
+
+
+@app.route('/physical_fitness')
+def physical_fitness():
+
+	return render_template('physical_fitness.html')
+
 
 socketio.run(app, host = '0.0.0.0', port = 4000, debug = True)

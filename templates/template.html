@@ -41,9 +41,9 @@
 
     <ul class="navbar-nav mr-auto">
 
-    	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" class="nav-link" href="javascript:void(0)">Home</button></li>
-    	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" role="button" class="nav-link" href="javascript:void(0)">Posts</button></li>
-    	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" role="button" class="nav-link" href="javascript:void(0)">About</button></li>
+    	<li class = 'nav-item'><a class="btn btn-dark ml-1 mr-1" role="button" href = '/community'>Community</a></li>
+    	<li class = 'nav-item'><a class="btn btn-dark ml-1 mr-1" role="button" href = '/'>Posts</a></li>
+    	<li class = 'nav-item'><a class="btn btn-dark ml-1 mr-1" role="button" href = '/about'>About</a></li>
       	<!-- add drop down -->
 
       	<li class = 'nav-item'><button class="btn btn-dark ml-1 mr-1" role="button" class="nav-link" href="javascript:void(0)">Children's Zone</button></li>
@@ -126,12 +126,13 @@
 		  	<div class = 'p-3'>
 		  		<center><h2> <span class = 'user-username'> username </span> </h2></center>
 
-			    <button class=" btn btn-success mt-2" onclick = 'loadUser()' style = 'width: 100%'>Profile Page</button>
-			    <button class=" btn btn-light mt-3" onclick = 'loadUser()' style = 'width: 100%'>Posts</button>
-			    <button class=" btn btn-light mt-1" onclick = 'loadUser()' style = 'width: 100%'>Projects</button>
-			    <button class=" btn btn-light mt-1" onclick = 'loadUser()' style = 'width: 100%'>Messages</button>
-			    <button class=" btn btn-light mt-1" onclick = 'loadUser()' style = 'width: 100%'>Settings</button>
+		  		<a class="btn btn-success mt-2" id = 'profilePageButton' role="button" style = 'width: 100%'>Profile Page</a>
+		  		<a class="btn btn-light mt-3" href = '/create_post' role="button" style = 'width: 100%'>Posts</a>
+		  		<a class="btn btn-light mt-1" role="button" style = 'width: 100%'>Projects</a>
+		  		<a class="btn btn-light mt-1" href = '/messages' role="button" style = 'width: 100%'>Messages</a>
+		  		<a class="btn btn-light mt-1" role="button" style = 'width: 100%'>Settings</a>
 			    <button class=" btn btn-danger mt-1" onclick = 'signOut()' style = 'width: 100%'>Sign Out</button>
+
 			</div>
 		  
 		  </div>
