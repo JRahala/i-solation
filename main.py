@@ -1,7 +1,7 @@
 from classes import *
 
 from flask import Flask, request, render_template, jsonify
-from flask_socketio import SocketIO, emit, send
+from flask_socketio import SocketIO, emit, send, join_room, leave_room
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -425,10 +425,67 @@ def get_conversation_by_name():
 	return jsonify(response)
 
 
-
+'''
 @socketio.on('chat')
 def chat(data):
 
     emit('chat', data)
+
+'''
+
+ROOMS = []
+
+# joining room handler
+
+@socketio.on('join')
+def on_join(data):
+
+	# username
+    username = data["username"]
+    room = data["room"]
+    join_room(room)
+
+    # Notofication about new user joined room
+    emit('chat', {'msg': f'{username} has joined the room', 'author': 'server', 'time': time.time() * 1000}, room=room, broadcast = True)
+
+
+@socketio.on('leave')
+def on_leave(data):
+
+    leave_room(data['room'])
+    # Notification about leaving users
+    send({'msg': data['username'] + " has left the " + data['room']}, room=data['room'])
+
+
+@socketio.on('new_room')
+def new_room(data):
+
+    ROOMS.append(data['new_room_name'])
+    room = data['new_room_name']
+    username = data['username']
+    join_room(data['new_room_name'])
+    # Notification about new user joined room
+    send({"msg": username + " has created the " + room + " room"}, room=room)
+
+
+@socketio.on('chat')
+def chat(data):
+
+	# get parameters from chat data sent
+	conversationName = data['room']
+	messageAuthor = data['username']
+	messageContent = data['content']
+
+	# get the user object and conversation object
+	user = server.get_user_by_username(messageAuthor)
+	conversation = user.get_conversation_by_name(conversationName)
+
+	# update the chat history
+	conversation.chat(user, messageContent)
+
+	#emit the chat to the current room to all users
+	emit('chat', {'msg': messageContent, 'author': messageAuthor, 'time': time.time() * 1000}, room = conversationName, broadcast = True)
+
+
 
 socketio.run(app, host = '0.0.0.0', port = 4000, debug = True)

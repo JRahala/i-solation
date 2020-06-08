@@ -1,3 +1,31 @@
+// load the client socket object
+
+// Establish socket connection
+var socket = io.connect("http://localhost:4000");
+
+// Trigger 'join' event
+function joinRoom(room) {
+    // Join room
+    socket.emit('join', {'username': 'username', 'room': 'room'});
+}
+
+// Trigger 'leave' event if user was previously on a room
+function leaveRoom(room) {
+    socket.emit('leave', {'username': username, 'room': room});
+}
+
+// Trigger this event when a new room needs to be created
+function newRoom(room) {
+    socket.emit('new_room', {'username': username, 'room': room});
+}
+
+
+
+socket.on('chat', function(data){
+    console.log(data);
+});
+
+
 window.addEventListener("load",function(event) {
 
 	// if the user is not logged in display the error message
@@ -111,12 +139,34 @@ function displayConversation(conversationName){
 }
 
 
-function displayMessage(messageContent, messageAuthor){
-
-	console.log(messageContent, messageAuthor);
+function displayMessage(messageContent, messageAuthor, messageTime){
 
 	// get the chat container
-	//$('#chatContainer').
+	// create the messageObject
+	if (messageAuthor == User.username){
+		$('#chatContainer').append(`
+
+			<div class="card text-white bg-secondary text-right mb-3" style="max-width: 100%;">
+			  <div class="card-body">
+			    <h6 class="card-title">${messageContent}</h6>
+			    <p class="card-text small">${messageAuthor} | ${milString(messageTime)}</p>
+			  </div>
+			</div>`
+			);
+	}
+
+	else{
+		$('#chatContainer').append(`
+
+			<div class="card text-white bg-primary mb-3" style="max-width: 100%;">
+			  <div class="card-body">
+			    <h6 class="card-title">${messageContent}</h6>
+			    <p class="card-text small">${messageAuthor} | ${milString(messageTime)}</p>
+			  </div>
+			</div>`
+			);
+	}
+	// 
 
 
 }

@@ -42,8 +42,9 @@ class Conversation:
 		for user in self.allowed:
 			user.add_notification(f'{requester.username} have been added into group: {self.name}')
 
-		# remove pending request
+		# remove pending request and add converstaion to requester's current dict
 		self.pending.remove(requester)
+		requester.conversations[self.name] = self
 
 
 	# deny the requester access
