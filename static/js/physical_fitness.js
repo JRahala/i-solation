@@ -3,8 +3,9 @@ function filter_over(){
 
 	$( "#suggestions .card")
   .filter(function( index ) {
-    return true;
-  })
+    var x = $(this).has('.old');
+    return x.length == 0;
+  }) 
     .toggle();
 }
 
